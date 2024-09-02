@@ -1,3 +1,5 @@
 main.py
 config.json
 .env
+isthisascam/db.sqlite3
+isthisascam/images
