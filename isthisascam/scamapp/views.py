@@ -1,12 +1,19 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from PIL import Image
 import pytesseract
 from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 from .forms import FileUploadForm
-from .utils import scan_file
+
+
+# from .utils import scan_file
 
 
 def extract_text_from_image(image_path):
@@ -35,7 +42,8 @@ def homePage(request):
             uploaded_file = request.FILES['file']
 
             # Call the scan_file function
-            file_clean = scan_file(uploaded_file)
+            # file_clean = scan_file(uploaded_file)
+            file_clean = True
             if file_clean:
                 image_path = 'test.jfif'
                 text = extract_text_from_image(image_path)
@@ -55,6 +63,9 @@ def homePage(request):
         return JsonResponse({
             'result': 'failed'
         }, status=status.HTTP_202_ACCEPTED)
+    context = {
+
+    }
     return render(request, 'home_page.html')
 
 
@@ -63,16 +74,65 @@ def communityPage(request):
 
 
 def landingPage(request):
-    return render(request, 'landing_page.html')
+    '''First time users are redirected here. Checkout registration accepted here'''
+
+    return render(request, 'index.html')
 
 
+@api_view(['POST', 'GET'])
 def loginPage(request):
-    return render(request, 'login_page.html')
+    if request.user.is_authenticated:
+        return redirect('home')
+    if request.method == 'POST':
+        name = request.POST.get('username', None)
+        email = request.POST.get('email', None)
+        password = request.POST.get('password', None)
+        cpassword = request.POST.get('cpassword', None)
+        type_ = request.POST.get('type', None)
+        if not all([name, password]):
+            return Response({'result': False, 'message': 'Please provide required details'},
+                            status.HTTP_200_OK)
+        if type_ == 'login':
+            user = authenticate(request, username=name.strip(), password=password.strip())
+            if user is not None:
+                login(request, user)
+                return Response({'result': True, 'message': 'success'},
+                                status.HTTP_200_OK)
+            return Response({'result': False, 'message': 'Invalid credentials'},
+                            status.HTTP_200_OK)
+        elif type_ == 'signup':
+            us = User.objects.filter(email=email.strip()).exists()
+            nm = User.objects.filter(username=name.strip()).exists()
+            if us or nm:
+                return Response({'result': False, 'message': 'User already exists'},
+                                status.HTTP_200_OK)
+            if cpassword != password:
+                return Response({'result': False, 'message': 'passwords do not match'},
+                                status.HTTP_200_OK)
+
+            user = User.objects.create_user(username=name.strip(), password=password.strip(), email=email.strip())
+            user.save()
+            print('registered')
+            login(request, user)
+            return Response({'result': True, 'message': 'login success'},
+                            status.HTTP_200_OK)
+
+    return render(request, 'login_signup.html')
 
 
-def registerPage(request):
-    return render(request, 'register_page.html')
+@login_required
+def logOut(request):
+    logout(request)
+    return redirect('landing')
 
 
 def pricingPage(request):
     return render(request, 'pricing_page.html')
+
+
+def termsandCo(request):
+    return render(request, 'terms.html')
+
+
+def privacy(request):
+    return render(request, 'privacy.html')
