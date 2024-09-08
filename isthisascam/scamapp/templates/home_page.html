@@ -42,10 +42,143 @@
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href=
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{% static  'css/main.css' %}">
+    <link rel="stylesheet" href="{% static  'css/upload.css' %}">
+    <link rel="stylesheet" href="{% static  'css/feature-request-style.css' %}">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <style>
+        .loader {
+          width: 48px;
+          height: 48px;
+          display: inline-block;
+          position: relative;
+          display:block;margin-left:45%;margin-top:200px;
+            }
+            .loader::after,
+            .loader::before {
+              content: '';
+              box-sizing: border-box;
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              border: 2px solid grey;
+              position: absolute;
+              left: 0;
+              top: 0;
+              animation: animloader 2s linear infinite;
+            }
+            .loader::after {
+              animation-delay: 1s;
+            }
+
+            @keyframes animloader {
+              0% {
+                transform: scale(0);
+                opacity: 1;
+              }
+              100% {
+                transform: scale(1);
+                opacity: 0;
+              }
+            }
+
+
+        /* Container for the grid */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+    gap: 15px; /* Gap between grid items */
+  padding: 10px;
+  margin: 20px;
+  height: 80%; /* Adjust height as needed */
+  overflow-y: scroll; /* Vertical scrolling */
+  overflow-x: hidden; /* Hide horizontal scroll */
+}
+
+/* Individual grid items */
+.grid-item {
+background:rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fade-in {
+  animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  -ms-animation: fadeIn ease 1s;
+}
+
+
+@keyframes fadeIn{
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity:0;
+  }
+  100% {
+    opacity:1;
+  }
+}
+.slide-right {
+  animation: 1s slide-right;
+}
+@keyframes slide-right {
+  from {
+    margin-left: -100%;
+  }
+  to {
+    margin-left: 0%;
+  }
+}
+    </style>
 </head>
 
-<body>
+<body class="{{theme}}">
 
 <div class="sidebar">
     <div class="tooltip">
@@ -59,17 +192,18 @@
                 <p class="conversation-text">
                     <span style="font-size:18px;text-align:start">IsThisA<span style="color:red">Scam?</span></span>
                 </p>
-                <ul id="quick-links" style="text-decoration:none;cursor:pointer;">
-                    <li>Analyse conversation</li>
-                    <li>Scan website</li>
-                    <li>Reverse Image Search</li>
-                    <li>Phishing Detection Tool</li>
-                    <li>Scam Recovery Assistance </li>
-                    <li>Fraud Education Center</li>
-                    <li>Scam Trends </li>
-                    <li>Scam Heatmap </li>
-                    <li>Community</li>
-                    <li>Help</li>
+                <ul id="quick-links" style="text-decoration:none;cursor:pointer;" class="quick_links">
+                    <li id="analyse-convo" class="active" data-target="#analyse-conversation">Analyse conversation</li>
+                    <li id="scan-web" data-target="#scan-website">Scan website</li>
+                    <li id="reverse-image" data-target="#reverse-image-search">Reverse Image Search</li>
+                    <!--                    <li id="scam-recovery" data-target="#scam-recovery-help">Scam Recovery Assistance</li>-->
+                    <!--                    <li id="fraud-education" data-target="#fraud-education-center">Fraud Education Center</li>-->
+                    <!--                    <li id="scam-trends" data-target="#scam-trend-content">Scam Trends</li>-->
+                    <!--                    <li id="scam-heatmap" data-target="#scam-heatmap-content">Scam Heatmap</li>-->
+                    <!--                    <li id="community" data-target="#community-content">Community</li>-->
+                    <li id="report" data-target="#report-scam">Report Scam</li>
+                    <li id="feature" data-target="#feature-request">Feature request</li>
+                    <!--                    <li id="help" data-target="#help-content">Help</li>-->
 
                 </ul>
             </div>
@@ -112,12 +246,52 @@
         </div>
     </div>
 </div>
-<div class=" chat-container light-mode">
-    <div class="chat-content">
+<div class=" chat-container light-mode" id="">
+    <div class="chat-content" id="analyse-conversation" style="display:block">
         <div class="chat-header">
             <div class="logo-container">
-                <h4>Hi,
+                <h4 style="">Hi,
                     {{request.user.username}}!
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                           class="mode-toggle-checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="" id="intro-placeholder"
+             style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:20px;text-align:center">
+            <div class="section-fun-fact">
+                <h4>{{ffact.title}}</h4>
+                <p>
+                    {{ffact.content}}
+                </p>
+            </div>
+        </div>
+        <p style="font-size:12px;margin-top:50px;width:70%" class="textfield-guidelines">Tip: To get the most out of the
+            analysis, please provide enough context such as how the conversation started, whether there were any other
+            interactions apart from what you have provided (such as calls) and the content.
+            Include screenshots where applicable. Blur/hide any personal information that can uniquely identify you such
+            as phone number, your name or address </p>
+        <div style="display:flex;justify-content:center;width:80%;">
+            <div class="input-container" style="width:50%;margin-left:10%">
+                <i class="fas fa-upload start-icon" style="font-size:20px;"></i> <!-- Icon at the start -->
+                <textarea
+                        placeholder="Paste your conversation here or use the left icon to upload a screenshot..."></textarea>
+                <i class="material-icons end-icon" style="font-size:30px;">send</i><!-- Icon at the end -->
+            </div>
+
+        </div>
+    </div>
+    <div class="chat-content" id="scan-website" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Website Scanner
                 </h4>
             </div>
             <div class="mode-toggle">
@@ -129,15 +303,626 @@
             </div>
 
         </div>
-        <div class="chat-box" id="chat-box"></div>
-        <div class="input-container">
-            <i class="fas fa-upload start-icon" style="font-size:20px"></i> <!-- Icon at the start -->
-            <input type="text" placeholder="How can I help you " multiple/>
-            <i class="fa fa-paper-plane end-icon" style="font-size:20px"></i> <!-- Icon at the end -->
+        <div class="search-container" style="display:flex;justify-content:space-between">
+            <input type="text" id="scan-input" placeholder="Paste the website link here to scan"/>
+            <i class="fa fa-search " style="font-size:20px;padding-right:20px;color:grey" id="scan-search"></i>
+            <!-- Icon at the end -->
         </div>
+        <div id="error-mess-website" style="display:none;color:#fa6161;margin-left:45%"></div>
+        <div id="website-scan-feature" style="padding:20px;height:80%;overflow-y:scroll;display:block">
+            <div class="overview">
+                <p><strong>Overview:</strong></p>
+                <p>This feature provides a detailed analysis of any website to help you identify potential scams
+                    and fraud. By evaluating various aspects of the site, we help you make informed decisions before
+                    interacting with it. Whether you're considering making a purchase, entering personal information, or
+                    just browsing, our scan will ensure you're protected.</p>
+            </div>
+
+            <div class="what-to-expect">
+                <p><strong>What to Expect:</strong></p>
+
+                <div class="domain-information" style="font-size:15px;margin:20px">
+                    <h6>1. Domain Information:</h6>
+                    <ul>
+                        <li><p><strong>Domain Age & Registrar:</strong> Find out when the domain was registered and who
+                            owns it. Recently registered domains or those with hidden ownership details can be red
+                            flags.</p>
+                        </li>
+                        <li><p><strong>Blacklist Status:</strong> Check if the domain is known for malicious activity or
+                            reported as a scam .</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="ssl-certificate-validation" style="font-size:15px;margin:20px">
+                    <h6>2. SSL Certificate Validation:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="content-analysis" style="font-size:15px;margin:20px">
+                    <h6>3. Content Analysis:</h6>
+                    <ul>
+                        <li><p><strong>Scam Indicators:</strong> Analyze the site's content for common scam patterns
+                            such
+                            as urgent calls to action, unrealistic promises, or requests for personal information.</p>
+                        </li>
+                        <li><p><strong>Language & Quality:</strong> Detect suspicious language and evaluate the overall
+                            quality of the site's content for signs of fraud.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="redirection-and-links" style="font-size:15px;margin:20px">
+                    <h6>4. Redirection and Links:</h6>
+                    <ul>
+                        <li><p><strong>Redirection Patterns:</strong> Check if the site redirects you to other pages or
+                            sites, especially those that seem suspicious or unrelated.</p>
+                        </li>
+                        <li><p><strong>External Links:</strong> Identify links to other domains and evaluate their
+                            safety.
+                            This helps to uncover potential phishing attempts or malware distribution.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="third-party-resources" style="font-size:15px;margin:20px">
+                    <h6>5. Third-Party Resources:</h6>
+                    <ul>
+                        <li><p><strong>External Scripts:</strong> Review third-party scripts and resources used by the
+                            site
+                            to ensure they are from reputable sources. Malicious scripts can compromise your security.
+                        </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="how-it-helps">
+                <p><strong>How It Helps:</strong></p>
+
+                <ul>
+                    <li><p><strong>Avoid Fraud:</strong> Protect yourself from fraudulent websites by identifying
+                        suspicious domains and content before you interact with them.</p>
+                    </li>
+                    <li><p><strong>Secure Transactions:</strong> Ensure that any transactions or data submissions are
+                        done
+                        through secure, legitimate sites.</p>
+                    </li>
+                    <li><p><strong>Informed Decisions:</strong> Make better decisions about which sites to trust and
+                        which
+                        to avoid based on detailed, actionable insights.</p>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="getting-started">
+                <p><strong>Getting Started:</strong></p>
+                <p>Simply enter the URL of the website you want to scan into our Website Scan feature. Our system will
+                    analyze the site and provide you with a detailed report on its safety and legitimacy. Stay safe!</p>
+            </div>
+        </div>
+        <div id="website-scan-loader" style="display:none"><span class="loader"></span></div>
+        <div id="website-scan-result" style="padding:20px;height:80%;overflow-y:scroll;margin-top:20px;display:none">
+            <div class="overview"
+                 style="display:flex;justify-content:space-between;width:25%;padding-top:15px;padding-bottom:15px">
+                <h6>Analysis results for:</h6>
+                <p>Google.com</p>
+            </div>
+            <div class="overview" style="display:flex;justify-content:space-between;width:130px">
+                <h6>Risk Score:</h6>
+                <p style="color:#3bed4a">Low</p>
+            </div>
+            <div class="overview" style="display:flex;justify-content:space-between;">
+                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">
+                    <h6>1. Domain Information:</h6>
+                    <ul>
+                        <li><p><strong>Registrar:</strong></p></li>
+                        <li><p><strong>Domain name:</strong></p></li>
+                        <li><p><strong>Date created:</strong></p></li>
+                        <li><p><strong>Expiration date:</strong></p></li>
+                        <li><p><strong>Nameservers:</strong></p></li>
+                        <li><p><strong>Organization:</strong></p></li>
+                        <li><p><strong>Address:</strong></p></li>
+                    </ul>
+                </div>
+
+                <div class="domain info explanation" style="font-size:15px;margin-top:50px">
+                    <h6 style="font-size:14px">Key Take-Aways:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr style="color:grey">
+            <div class="overview" style="display:flex;justify-content:space-between;">
+                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">
+                    <h6>2. SSL Certificate:</h6>
+                    <ul>
+                        <li><p><strong>Registrar:</strong></p></li>
+                        <li><p><strong>Domain name:</strong></p></li>
+                        <li><p><strong>Date created:</strong></p></li>
+                        <li><p><strong>Expiration date:</strong></p></li>
+                        <li><p><strong>Nameservers:</strong></p></li>
+                        <li><p><strong>Organization:</strong></p></li>
+                        <li><p><strong>Address:</strong></p></li>
+                    </ul>
+                </div>
+
+                <div class="domain info explanation" style="font-size:15px;margin-top:50px">
+                    <h6 style="font-size:14px">Key Take-Aways:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr style="color:grey">
+
+            <div class="overview" style="display:flex;justify-content:space-between;">
+                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">
+                    <h6>3. Content Analysis:</h6>
+                    <ul>
+                        <li><p><strong>Registrar:</strong></p></li>
+                        <li><p><strong>Domain name:</strong></p></li>
+                        <li><p><strong>Date created:</strong></p></li>
+                        <li><p><strong>Expiration date:</strong></p></li>
+                        <li><p><strong>Nameservers:</strong></p></li>
+                        <li><p><strong>Organization:</strong></p></li>
+                        <li><p><strong>Address:</strong></p></li>
+                    </ul>
+                </div>
+
+                <div class="domain info explanation" style="font-size:15px;margin-top:50px">
+                    <h6 style="font-size:14px">Key Take-Aways:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr style="color:grey">
+
+            <div class="overview" style="display:flex;justify-content:space-between;">
+                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">
+                    <h6>4. Redirection and Links:</h6>
+                    <ul>
+                        <li><p><strong>Registrar:</strong></p></li>
+                        <li><p><strong>Domain name:</strong></p></li>
+                        <li><p><strong>Date created:</strong></p></li>
+                        <li><p><strong>Expiration date:</strong></p></li>
+                        <li><p><strong>Nameservers:</strong></p></li>
+                        <li><p><strong>Organization:</strong></p></li>
+                        <li><p><strong>Address:</strong></p></li>
+                    </ul>
+                </div>
+
+                <div class="domain info explanation" style="font-size:15px;margin-top:50px">
+                    <h6 style="font-size:14px">Key Take-Aways:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr style="color:grey">
+            <div class="overview" style="display:flex;justify-content:space-between;">
+                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">
+                    <h6>5. Third-Party Resources:</h6>
+                    <ul>
+                        <li><p><strong>Registrar:</strong></p></li>
+                        <li><p><strong>Domain name:</strong></p></li>
+                        <li><p><strong>Date created:</strong></p></li>
+                        <li><p><strong>Expiration date:</strong></p></li>
+                        <li><p><strong>Nameservers:</strong></p></li>
+                        <li><p><strong>Organization:</strong></p></li>
+                        <li><p><strong>Address:</strong></p></li>
+                    </ul>
+                </div>
+
+                <div class="domain info explanation" style="font-size:15px;margin-top:50px">
+                    <h6 style="font-size:14px">Key Take-Aways:</h6>
+                    <ul>
+                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a
+                            valid
+                            SSL certificate. This ensures that data transmitted between your browser and the site is
+                            encrypted.</p>
+                        </li>
+                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period
+                            to
+                            ensure the site is using up-to-date security measures.</p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <hr style="color:grey">
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="reverse-image-search" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Reverse Image Search
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div id="reverse-instruction" style="display:block">
+            <div class="" id="reverse-image-placeholder"
+                 style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:10px;text-align:center">
+                <div class="section-fun-fact">
+                    <h4>Spot the Fake</h4>
+                    <p>
+                        Scammers often use fake or stolen images to deceive others. With our Reverse Image Search, you
+                        can quickly trace the origin of any image—whether it’s a product listing, profile photo, or
+                        suspicious content. Protect yourself by identifying potential scams and verifying images before
+                        you fall for them.
+                    </p>
+                    <p>Upload, search, and stay safe. Try it now! 🖼️🕵️‍♀️</p>
+                </div>
+            </div>
+            <div style="width:90%;margin-top:10px;display:flex;justify-content:center">
+                <div class="drop-zone" style="width:80%">
+                    <span class="drop-zone__prompt" style="color:grey">Drop file here or click to upload</span>
+                    <input type="file" name="myFile" class="drop-zone__input">
+                </div>
+            </div>
+            <div style="width:90%;display:flex;justify-content:center;margin-top:10px">
+                <div id="image-search-btn" style="width:100px;background-color:#3a3b3b">Search</div>
+            </div>
+
+
+        </div>
+        <div id="reverse-result" style="padding:15px;height:100%;display:none;">
+            <div style="display:flex;height:100%">
+                <div style="display:flex;justify-content:center;flex-direction:column;height:90%;width:30%;background:rgba(0, 0, 0, 0.15);border-radius:20px">
+                    <div id="subject-img" style="background-size: contain;background-position: center;background-repeat: no-repeat;width:100%;height:70%;"></div>
+                    <div style="height:30px;background:#3a3b3b;margin-right:20%;margin-left:20%;margin-top:40px;align-items:center;padding:10px;border-radius:10px;cursor:pointer">
+                        <p style="text-align:center;color:white">Search Again</p></div>
+                </div>
+                <div style="display:flex;justify-content:center;width:70%;">
+                    <p>Results</p>
+                    <div id="grid-cont" class="grid-container">
+                        <div class="grid-item">1</div>
+                        <div class="grid-item">2</div>
+                        <div class="grid-item">3</div>
+                        <div class="grid-item">4</div>
+                        <div class="grid-item">5</div>
+                        <div class="grid-item">6</div>
+                        <div class="grid-item">7</div>
+                        <div class="grid-item">8</div>
+                        <div class="grid-item">9</div>
+                        <div class="grid-item">10</div>
+                        <div class="grid-item">11</div>
+                        <div class="grid-item">12</div>
+                        <div class="grid-item">1</div>
+                        <div class="grid-item">2</div>
+                        <div class="grid-item">3</div>
+                        <div class="grid-item">4</div>
+                        <div class="grid-item">5</div>
+                        <div class="grid-item">6</div>
+                        <div class="grid-item">7</div>
+                        <div class="grid-item">8</div>
+                        <div class="grid-item">9</div>
+                        <div class="grid-item">10</div>
+                        <div class="grid-item">11</div>
+                        <div class="grid-item">12</div>
+                        <!-- Add more items as needed -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="scam-recovery-help" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Scam Recovery Assistance
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="fraud-education-center" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Fraud Education Center
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="scam-trend-content" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Scam Trends
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="scam-heatmap-content" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Scam Heatmap
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="community-content" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Community
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"
+                    >
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="help-content" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Help
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"/>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="chat-content" id="report-scam" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Report Scam
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"/>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="" id="report-placeholder"
+             style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:70px;text-align:center">
+            <div class="section-fun-fact">
+                <h4>Together, We Stand Strong Against Scams</h4>
+                <p>
+                    <strong>"The only thing necessary for the triumph of evil is for good men to do nothing."</strong>–
+                    Edmund Burke
+                </p>
+                <p>We value the collective power of our community in the fight against fraud. By reporting scams, you
+                    not only safeguard yourself but also help protect countless others. The information you
+                    provide—excluding any personal details—may be utilized to improve our detection capabilities and
+                    make our platform even more effective at identifying and preventing new scams. Together, we can
+                    build a
+                    safer online environment for everyone.</p>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="chat-content" id="feature-request" style="display:none">
+        <div class="chat-header">
+            <div class="logo-container">
+                <h4>Request New Feature/Fix
+                </h4>
+            </div>
+            <div class="mode-toggle">
+                <label class="switch">
+                    <input type="checkbox"/>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="" id="feature-request-placeholder"
+             style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:20px;text-align:center">
+            <div style="display:flex;justify-content:space-around">
+                <div class="section-fun-fact">
+                    <p>Help Us Improve – Suggest a Feature or Report an Issue!️</p>
+                </div>
+                <div><span class="material-symbols-outlined" style="color:green;font-size:30px;cursor:pointer">add_circle</span>
+                </div>
+            </div>
+        </div>
+        <section class="games" style="overflow-y:scroll;height:100%;display:block">
+            <div class="container">
+                <ul class="game-list" data-bind="foreach: games">
+                    <li class="game" style="font-size:15px">
+                        <div class="game-likes">
+                            <span class="game-like-icon">★</span>
+                            <span class="game-like-count">10</span>
+                        </div>
+                        <div class="game-content">
+                            <h6 class="game-title">
+                                <a>Include a community where we can interact</a>
+                            </h6>
+                            <span class="game-tagline" style="font-size:12px">fdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrb</span>
+                            <span class="game-time-ago" data-bind="text: created">6 mins</span>
+                        </div>
+                    </li>
+                    <li class="game" style="font-size:15px">
+                        <div class="game-likes">
+                            <span class="game-like-icon"><span
+                                    class="material-symbols-outlined">arrow_drop_up</span></span>
+                            <span class="game-like-count">10</span>
+                        </div>
+                        <div class="game-content">
+                            <h6 class="game-title">
+                                <a>Include a community where we can interact</a>
+                            </h6>
+                            <span class="game-tagline" style="font-size:12px">fdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrb</span>
+                            <span class="game-time-ago" data-bind="text: created">6 mins</span>
+                        </div>
+                    </li>
+                    <li class="game" style="font-size:15px">
+                        <div class="game-likes" style="">
+                            <span class="game-like-icon"><i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span class="game-like-count">10</span>
+                        </div>
+                        <div class="game-content">
+                            <h6 class="game-title">
+                                <a>Include a community where we can interact</a>
+                            </h6>
+                            <span class="game-tagline" style="font-size:12px">fdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrbfdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrbfdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrbfdvdfvdf efbreb reberer erthtr
+                                gbrbrbrbrt rrtbrtb rbbrtbt jkengerge erbhjergber ewj fewrjfbewrhj wbefhbwrjfr
+                                webfhwrb</span>
+                            <span class="game-time-ago" data-bind="text: created">12/08/2024</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <div style="display:none;justify-content:center;width:100%;margin-top:15px">
+            <form style="width:80%">
+                <div class="form-group">
+                    <input type="text" class="form-control-input"
+                           style="border:solid 1px grey;border-radius:15px;width:100%;box-sizing: border-box;"
+                           placeholder="Title" required>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control-textarea" placeholder="Tell us more"
+                              style="border:solid 1px grey;border-radius:15px;width:100%;box-sizing: border-box;"
+                              required></textarea>
+                </div>
+                <div class="form-group" style="text-align:center;font-size:20px;align-items:center">
+                    <a class=" btn-solid-sm" style="cursor:pointer">Submit</a>
+                </div>
+            </form>
+
+
+        </div>
+
     </div>
 </div>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/website-scan.js' %}"></script>
+<script src="{% static 'js/navigation-router.js' %}"></script>
+<script src="{% static 'js/upload.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#image-search-btn').click(function (){
+            var text=$('#reverse-instruction');
+            var revContainer=$('#reverse-result');
+            var subImage=$('#subject-img');
+            var resImage=$('#grid-cont');
+            text.css('display','none');
+            revContainer.css('display','block');
+            subImage.addClass('slide-right');
+            resImage.addClass('fade-in');
+
+        });
+    });
+</script>
 </body>
 
 </html>

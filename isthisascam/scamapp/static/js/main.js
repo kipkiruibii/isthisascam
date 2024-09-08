@@ -7,7 +7,7 @@ const sendButton =
 const sidebarToggle =
     document.getElementById('sidebar-toggle');
 const modeToggle =
-    document.getElementById('mode-toggle-checkbox');
+    document.getElementByClass('mode-toggle-checkbox');
 const sidebar =
     document.querySelector('.sidebar');
 
@@ -51,6 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
     modeToggleCheckbox.addEventListener('change', function () {
         chatContainer.classList.toggle('light-mode');
         chatContainer.classList.toggle('dark-mode');
+        body.classList.toggle('dark-mode');
+        body.classList.toggle('light-mode');
     });
 });
 

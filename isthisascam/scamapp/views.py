@@ -9,8 +9,9 @@ import pytesseract
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from .forms import FileUploadForm
+from .website_scan import *
+from .models import *
 
 
 # from .utils import scan_file
@@ -37,36 +38,64 @@ def homePage(request):
     Protected through login(login required)
     '''
     if request.method == 'POST':
-        form = FileUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            uploaded_file = request.FILES['file']
+        feature = request.POST.get('feature', None)
+        if feature == 'website-scan':
+            url = request.POST.get('url', None)
+            if url:
+                domain_info = get_domain_info(url)
+                ssl_cert = check_ssl_cert(url)
+                redirections = check_redirections(url)
+        if feature == 'analyse-convo':
+            form = FileUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                uploaded_file = request.FILES['file']
 
-            # Call the scan_file function
-            # file_clean = scan_file(uploaded_file)
-            file_clean = True
-            if file_clean:
-                image_path = 'test.jfif'
-                text = extract_text_from_image(image_path)
+                # Call the scan_file function
+                # file_clean = scan_file(uploaded_file)
+                file_clean = True
+                if file_clean:
+                    image_path = 'test.jfif'
+                    text = extract_text_from_image(image_path)
 
-                if text:
-                    print("Extracted Text:")
-                    print(text)
+                    if text:
+                        print("Extracted Text:")
+                        print(text)
+                        return JsonResponse({
+                            'result': text
+                        }, status=status.HTTP_200_OK)
+
+                else:
                     return JsonResponse({
-                        'result': text
-                    }, status=status.HTTP_200_OK)
+                        'result': 'Content extracted'
+                    }, status=status.HTTP_403_FORBIDDEN)
 
-            else:
-                return JsonResponse({
-                    'result': 'Content extracted'
-                }, status=status.HTTP_403_FORBIDDEN)
+        if feature == 'reverse-image':
+            pass
+
+        if feature == 'community':
+            pass
+
+        if feature == 'scam-trends':
+            pass
+
+        if feature == 'fraud-education':
+            pass
+        if feature == 'scam-recovery':
+            pass
+        if feature == 'scam-heatmap':
+            pass
 
         return JsonResponse({
             'result': 'failed'
         }, status=status.HTTP_202_ACCEPTED)
-    context = {
 
+    context = {
+        # 'theme': 'dark-mode',
+        'ffact': FunFact.objects.order_by('?').first()
     }
-    return render(request, 'home_page.html')
+    if request.user_agent.is_pc:
+        return render(request, 'home_page.html', context=context)
+    return render(request, 'home_page_mobile.html', context=context)
 
 
 def communityPage(request):
@@ -117,7 +146,9 @@ def loginPage(request):
             return Response({'result': True, 'message': 'login success'},
                             status.HTTP_200_OK)
 
-    return render(request, 'login_signup.html')
+    if request.user_agent.is_pc:
+        return render(request, 'login_signup.html')
+    return render(request, 'login_signup_mobile.html')
 
 
 @login_required

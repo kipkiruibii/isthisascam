@@ -384,10 +384,10 @@
     </div> <!-- end of container -->
 </nav> <!-- end of navbar -->
 <!--  of navigation -->
+
 <br>
-<div class="cont"
-     style="margin-top:100px;margin-bottom:50px;padding-bottom:20px; width: 900px; height: 650px;box-shadow: -10px -10px 15px rgba(255, 255, 255, 0.3), 10px 10px 15px rgba(70, 70, 70, 0.15), inset -10px -10px 15px rgba(255, 255, 255, 0.3), inset 10px 10px 15px rgba(70, 70, 70, 0.15);">
-    <div class="form sign-in">
+<div class="cont" style="margin-top:100px;margin-bottom:50px;padding-bottom:20px;background-color:white">
+    <div id="sign-in-form" style="display:block">
         <h2>Welcome</h2>
         <label>
             <span>Username</span>
@@ -402,53 +402,43 @@
         <label>
             <a class="btn-solid-sm button" id="signin-btn">Sign In</a>
         </label>
+        <p class="forgot-pass img__btn_pne" style="color:blue" id="sign-up-switch">Don't have an account? Sign Up </p>
+
 
     </div>
-    <div class="sub-cont" style="width: 900px;height: 100%;padding-left: 260px;">
-        <div class="img">
-            <div class="img__text m--up">
+    <div id="sign-up-form" style="display:none">
+        <h2>Create your Account</h2>
+        <label>
+            <span>Username</span>
+            <input type="text" id="usernameSn" required/>
+        </label>
+        <label>
+            <span>Email</span>
+            <input type="email" id="emailSn" required/>
+        </label>
+        <label>
+            <span>Password</span>
+            <input type="password" id="passwordSn" required/>
+        </label>
+        <label>
+            <span>Repeat Password</span>
+            <input type="password" id="cpasswordSn" required/>
+        </label>
+        <p class="forgot-pass" id="errorSn" style="color:red;font-size:12px;font-weight:bold;"></p>
+        <p class="forgot-pass" style="font-size:12px;color:grey">By clicking sign up, you agree to our <a
+                href="{% url 'terms' %}">terms of service</a></p>
 
-                <h3 style="color:white">Don't have an account? Please Sign up!</h3>
-            </div>
-            <div class="img__text m--in">
+        <label>
+            <a class="btn-solid-sm " id="signup-btn">Sign Up</a>
+        </label>
+        <p class="forgot-pass" style="color:blue" id="sign-in-switch">Already have an account? Sign In</p>
 
-                <h3 style="color:white">If you already have an account, just sign in.</h3>
-            </div>
-            <div class="img__btn">
-                <span class="m--up">Sign Up</span>
-                <span class="m--in">Sign In</span>
-            </div>
-        </div>
-        <div class="form sign-up">
-            <h2>Create your Account</h2>
-            <label>
-                <span>Username</span>
-                <input type="text" id="usernameSn" required/>
-            </label>
-            <label>
-                <span>Email</span>
-                <input type="email" id="emailSn" required/>
-            </label>
-            <label>
-                <span>Password</span>
-                <input type="password" id="passwordSn" required/>
-            </label>
-            <label>
-                <span>Repeat Password</span>
-                <input type="password" id="cpasswordSn" required/>
-            </label>
-            <p class="forgot-pass" id="errorSn" style="color:red;font-size:12px;font-weight:bold;"></p>
-            <p class="forgot-pass" style="font-size:12px;color:grey">By clicking sign up, you agree to our <a
-                    href="{% url 'terms' %}">terms of service</a></p>
 
-            <label>
-                <a class="btn-solid-sm " id="signup-btn">Sign Up</a>
-            </label>
-
-        </div>
     </div>
 </div>
 <br>
+
+
 <script type="text/javascript">
     document.querySelector('.img__btn').addEventListener('click', function() {
         document.querySelector('.cont').classList.toggle('s--signup');
