@@ -25,6 +25,7 @@
     <meta property="og:image" content="https://pixeliabucket.s3.us-west-1.amazonaws.com/appAssets/scmm.jpg"/>
     <!-- image link, make sure it's jpg -->
     <meta property="og:url" content="www.isthisascam.online"/> <!-- where do you want your post to link to -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     <!-- Webpage Title -->
     <title>Run Your Scam Analysis ,Website Analysis & Reverse Image Search | Instant Results & Comprehensive
@@ -37,6 +38,20 @@
     <link href="{% static 'css/fontawesome-all.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+    <link rel="stylesheet" href=
+            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static  'css/upload.css' %}">
+    <link rel="stylesheet" href="{% static  'css/feature-request-style.css' %}">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
@@ -44,11 +59,177 @@
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static  'css/main-mobile.css' %}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <!--    GOOGLE ANALYTICS TRACKING-->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R3C8P55552"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-R3C8P55552');
+    </script>
 
 
+    <style>
+
+        .search-container-mob {
+    border-top: 0.01px solid #5c5b5b;
+    border-radius: 25px;
+    border: 2px solid grey;
+    padding:10px;
+
+}
+
+        .loader {
+          width: 48px;
+          height: 48px;
+          display: inline-block;
+          position: relative;
+          display:block;margin-left:45%;margin-top:200px;
+            }
+            .loader::after,
+            .loader::before {
+              content: '';
+              box-sizing: border-box;
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              border: 2px solid grey;
+              position: absolute;
+              left: 0;
+              top: 0;
+              animation: animloader 2s linear infinite;
+            }
+            .loader::after {
+              animation-delay: 1s;
+            }
+
+            @keyframes animloader {
+              0% {
+                transform: scale(0);
+                opacity: 1;
+              }
+              100% {
+                transform: scale(1);
+                opacity: 0;
+              }
+            }
+
+
+        /* Container for the grid */
+        .grid-container {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr); /* 2 items per row */
+            gap: 15px; /* Gap between grid items */
+          padding: 10px;
+          margin: 20px;
+          height: 80%; /* Adjust height as needed */
+          overflow-y: scroll; /* Vertical scrolling */
+          overflow-x: hidden; /* Hide horizontal scroll */
+        }
+
+        /* Individual grid items */
+        .grid-item {
+        background:rgba(0, 0, 0, 0.15);
+          padding: 20px;
+          width: 200px;
+          height: 200px;
+          text-align: center;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .fade-in {
+          animation: fadeIn ease 1s;
+          -webkit-animation: fadeIn ease 1s;
+          -moz-animation: fadeIn ease 1s;
+          -o-animation: fadeIn ease 1s;
+          -ms-animation: fadeIn ease 1s;
+        }
+
+
+        @keyframes fadeIn{
+          0% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+
+        @-moz-keyframes fadeIn {
+          0% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+
+        @-webkit-keyframes fadeIn {
+          0% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+
+        @-o-keyframes fadeIn {
+          0% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+
+        @-ms-keyframes fadeIn {
+          0% {
+            opacity:0;
+          }
+          100% {
+            opacity:1;
+          }
+        }
+        .slide-right {
+          animation: 1s slide-right;
+        }
+        @keyframes slide-right {
+          from {
+            margin-left: -100%;
+          }
+          to {
+            margin-left: 0%;
+          }
+        }
+
+        .res-cont-dec{
+            color:#808080;
+        }
+            .content-analysis{
+                margin-left:10%;
+                margin-right:20%;
+                margin-top:20px;
+                text-align:center;
+                }
+. item-mob{
+        width:90%;
+        height:70%;
+        overflow-y:scroll;
+        overflow-x: hidden;
+        }
+
+    </style>
 </head>
 
-<body class="{{theme}}">
+<body class="{{theme}}   ">
 
 <div class="sidebar" id="sidebar-switch" style="display:none">
     <div class="tooltip">
@@ -66,21 +247,34 @@
                     </p>
                     <i class="fa fa-close" id="close-side-nav" style="font-size:24px"></i>
                 </div>
-                <ul id="quick-links" style="text-decoration:none;cursor:pointer;">
-                    <li>Analyse conversation</li>
-                    <li>Scan website</li>
-                    <li>Reverse Image Search</li>
-                    <li>Scam Recovery Assistance</li>
-                    <li>Fraud Education Center</li>
-                    <li>Scam Trends</li>
-                    <li>Scam Heatmap</li>
-                    <li>Community</li>
-                    <li>Help</li>
+                <div class="conversation-list">
+                    <div class="conversation">
+                        <ul id="quick-links"
+                            style="text-decoration:none;cursor:pointer;margin-top:50px;top:20;font-size:15px"
+                            class="quick_links">
+                            <li id="analyse-convo" class="active" data-target="#analyse-conversation">Analyze
+                                conversation
+                            </li>
+                            <li id="scan-web" data-target="#scan-website">Scan website/Link</li>
+                            <li id="verify-contact" data-target="#verify-company-contact">Verify Official Contact</li>
+                            <!--                                                <li id="verify-profile" data-target="#reverse-image-search">Verify Social Profile</li>-->
+                            <!--                                                <li id="reverse-image" data-target="#reverse-image-search">Reverse Image Search</li>-->
+                            <!--                                                <li id="scam-recovery" data-target="#scam-recovery-help">Scam Recovery Assistance</li>-->
+                            <!--                                                <li id="fraud-education" data-target="#fraud-education-center">Fraud Education Center</li>-->
+                            <!--                                                <li id="scam-trends" data-target="#scam-trend-content">Scam Trends</li>-->
+                            <!--                                                <li id="scam-heatmap" data-target="#scam-heatmap-content">Scam Heatmap</li>-->
+                            <!--                                                <li id="community" data-target="#community-content">Community</li>-->
+                            <li id="report" data-target="#report-scam">Report Scam</li>
+                            <li id="feature" data-target="#feature-request">Issues & Requests</li>
+                            <!--                    <li id="help" data-target="#help-content">Help</li>-->
 
-                </ul>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <button id="new-conversation-btn">
+        <button class="new-conversation-btn-left" data-target="#analyse-conversation"
+                id="new-conversation-btn-left">
             Start New Conversation
         </button>
         <div style="padding:10px">
@@ -93,17 +287,23 @@
             </div>
             <div style="display:flex;">
                 <div style="width:80px;">
-                    <p>Requests</p>
+                    <p>Credits</p>
                 </div>
-                <p style="color:white">0</p>
+                <p style="color:white" id="request-count">{{account_info.request_remaining}}</p>
             </div>
             <div style="display:flex;">
                 <div style="width:80px;">
                     <p>Plan</p>
                 </div>
-                <p style="color:grey">Inactive</p>
+                {% if account_info.subscription_active %}
+                <p style="color:rgba(83, 237, 116,0.5)">Active </p>
+
+                {% else %}
+                <p style="color:rgba(252, 50, 50,0.5)">Inactive </p>
+                {% endif %}
+
             </div>
-            <span>
+            <span style="margin-left:20%;">
                     <a class="btn-solid-sm" href="{% url 'landing' %}#pricing">UPGRADE</a>
                 </span>
             <div>
@@ -118,28 +318,754 @@
         </div>
     </div>
 </div>
-<div class="chat-container light-mode">
-    <div class="chat-content">
-        <div class="chat-header">
-            <div class="logo-container" style="margin-left:10px" id="open-side-nav">
+<div class="chat-container " style="width:100%;margin:00px">
+    <div class="chat-container light-mode" id="" style="z-index:3;padding:10px;width:100%;margin:0">
+        <p hidden id="scam_indx"></p>
+        <div class=""
+             style="position:fixed;top:0;left:0;display:flex;justify-content:space-between;width:100%;background:rgba(0,0,0,0.1);padding:15px">
+            <div class="logo-container" style="margin-left:10px;margin-top:0" id="open-side-nav">
                 <i class="fa fa-bars" style="font-size:24px"></i>
             </div>
-            <div class="mode-toggle ">
+            <div class="mode-toggle " style="margin-right:20px;margin-top:0">
                 <label class="switch">
                     <input type="checkbox"
-                           id="mode-toggle-checkbox">
+                           class="mode-toggle-checkbox"/>
                     <span class="slider round dark-mode"></span>
                 </label>
             </div>
 
         </div>
-        <div class="chat-box" id="chat-box"></div>
-        <div class="input-container" style="width:90%">
-            <i class="fas fa-upload start-icon" style="font-size:20px"></i> <!-- Icon at the start -->
-            <textarea placeholder="How can I help you today?"></textarea>
-            <i class="fa fa-paper-plane end-icon" style="font-size:20px"></i> <!-- Icon at the end -->
+
+        <div class="chat-content item-mob" id="analyse-conversation"
+             style="display:block;margin-top:20%;margin-left:0;width:90%;height:70%;margin-bottom:30px;overflow-y:scroll;overflow-x:hidden;">
+            <div class="loader" id="loading-state" style="display:none"></div>
+
+            <div class="chat-box" style="display:none;height:100%;overflow-y:scroll;width:100%;margin:0;"
+                 id="chat-box">
+                <div class="" id="follow-up"
+                     style="border:dashed 2px grey;border-radius:10px;display:block;;padding:5px;margin:10px;width:80%">
+                    <div class="section-fun-fact" style="margin:5px;">
+                        <h6 style="font-weight:normal;text-align:center">Kindly answer the following question to help me
+                            gain a better
+                            understanding.</h6>
+                        <ul>
+                            {% for fq in follow_up %}
+                            <li>
+                                <p style="text-align:left">
+                                    {{ fq }}
+                                </p>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="" id="final-results" style="display:none">
+                    <div class="section-fun-fact" style="margin:5px;width:80%;height:100%">
+                        <h4>Results</h4>
+                        {% if do_you_think_this_is_a_scam %}
+                        <h6> Heads Up: This Looks Suspicious!</h6>
+                        <div style="text-align:start">
+
+                            <h6>What Raised Red Flags</h6>
+                            <ul style="padding-left:15px">
+                                {% for r in reasons_for_the_answer %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                            <h6>Scam Profile</h6>
+                            <p style="padding-left:15px">{{scam_type}}</p>
+                            <h6>What Is This Scam?</h6>
+                            <p style="padding-left:15px">{{definition_of_scam}}</p>
+                            <h6>Common Versions of This Scam</h6>
+                            <ul style="padding-left:15px">
+                                {% for r in variants_of_scam %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                            <h6>Tips to Avoid Falling for This Scam</h6>
+                            <ul style="padding-left:15px">
+                                {% for r in ways_to_protect_yourself %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                            <h6>Steps to Take If You’re a Victim</h6>
+                            <ul style="padding-left:15px">
+                                {% for r in what_to_do_if_fallen_victim %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% else %}
+                        <h6> This Doesn’t Seem to Be Fraudulent</h6>
+                        <div style="text-align:start">
+                            <h6>Basis for Our Evaluation</h6>
+                            <ul style="padding-left:15px;text-align:start">
+                                {% for r in reasons_for_yor_judgement %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                            <h6>What to watch out for</h6>
+                            <ul style="padding-left:15px;text-align:start">
+                                {% for r in what_to_watch_out_for %}
+                                <li><p>{{r}}</p></li>
+                                {% endfor %}
+                            </ul>
+                            <p>&hearts; Stay Safe!
+                            <p>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+            <div id="intro-placeholder" style="display:block;">
+                <div class=""
+                     style="align-items:center;margin-top:20px;text-align:center;padding:20px;margin:0">
+                    <div class="section-fun-fact">
+                        <h4>{{ffact.title}}</h4>
+                        <p>
+                            {{ffact.content}}
+                        </p>
+                    </div>
+                </div>
+                <p style="font-size:12px;margin-top:50px;" class="textfield-guidelines">Tip: To get the most
+                    out of
+                    the
+                    analysis, please provide enough context such as how the conversation started, whether there were any
+                    other
+                    interactions apart from what you have provided (such as calls) and the content.
+                    Include screenshots where applicable. Blur/hide any personal information that can uniquely identify
+                    you
+                    such
+                    as phone number, your name or address </p></div>
+            <input style="display:none" type="file" id="fileInput" class="file-input" accept="image/*"
+                   onchange="FileVerificationA(event)">
+            <div style="display:block;justify-content:center;width:90%;background:rgba(0,0,0,0.1);margin:20px;overflow:auto;scroll-direction:horizontal;white-space: nowrap;position:fixed:top:20%">
+                <div id="preview_imgs"></div>
+            </div>
+            <div style="width:100%;display:flex;justify-content:center;margin-top:5px;margin-bottom:20px;position:fixed;bottom:10px">
+                <div class="new-conversation-btn" id="new-conversation"
+                     style="width:200px;background-color:#3a3b3b;display:none">Analyze Again
+                </div>
+            </div>
+
+            <div style="display:block;justify-content:center;width:100%">
+
+                <div class="input-container" id="input-container"
+                     style="width:80%;display:block;justify-content:space-between;">
+
+                    <i class="fas fa-upload start-icon" style="font-size:20px;" onclick="triggerFileUpload()"
+                       id="screenshot-upload"></i>
+                    <!-- Icon at the start -->
+                    <textarea style="border-box;width:70%" id="analyse-details"
+                              placeholder="Paste your conversation/ describe your encounter here or use the left icon to upload a screenshot..."></textarea>
+                    <i class="material-icons end-icon" id="submit-analyse-form" style="font-size:30px;">send</i>
+                    <!-- Icon at the end -->
+                </div>
+
+            </div>
+        </div>
+        <div class="chat-content item-mob" id="scan-website"
+             style="display:none;margin-top:20%;height:100%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+            <div class="search-container-mob"
+                 style="display:flex;justify-content:space-between;margin-top:15px;margin-bottom:15px;width:100%;box-sizing: border-box;">
+                <input type="text" id="scan-input" style="background:rgba(0,0,0,0.0);width:100%;padding:0"
+                       placeholder="Paste the website link here to scan"/>
+                <i class="fa fa-search " style="font-size:20px;padding-right:20px;color:grey" id="scan-search"></i>
+                <!-- Icon at the end -->
+            </div>
+            <div style="display:flex;justify-content:center;width:100%">
+                <div id="error-mess-website" style="display:none;color:#fa6161;padding:5px"></div>
+
+            </div>
+            <div id="website-scan-feature" style=";display:block">
+
+                <p style="margin-top:20px;padding:15px" class="">Get a detailed analysis of any website
+                    to
+                    help you identify potential scams
+                    and fraud. By evaluating various aspects of the site, we help you make informed decisions before
+                    interacting with it. Whether you're considering making a purchase, entering personal information, or
+                    just browsing, our scan will ensure you're protected. </p>
+                <hr>
+                <p style="margin-top:10%"><strong>What to Expect:</strong></p>
+
+                <div class="what-to-expect"
+                     style="width:100%;overflow:auto;scroll-direction:horizontal;white-space: nowrap;display:flex">
+
+                    <div class="domain-information" style="font-size:15px;margin:20px">
+                        <h6>1. Domain Information</h6>
+                        <img src="https://static.vecteezy.com/system/resources/previews/000/167/665/non_2x/domain-icons-vector.png"
+                             style="width:100px;height:100px">
+                    </div>
+
+                    <div class="ssl-certificate-validation" style="font-size:15px;margin:20px">
+                        <h6>2. SSL Certificate Validation</h6>
+                        <img src="https://static.vecteezy.com/system/resources/previews/041/639/073/original/ssl-3d-illustration-icon-png.png"
+                             alt="" style="width:100px;height:100px">
+                    </div>
+
+
+                    <div class="redirection-and-links" style="font-size:15px;margin:20px">
+                        <h6>4. Redirection and Links</h6>
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/021/076/454/small_2x/301-redirect-icon-design-free-vector.jpg"
+                             alt="" style="width:100px;height:100px">
+                    </div>
+
+                    <div class="third-party-resources" style="font-size:15px;margin:20px">
+                        <h6>5. Recommendation</h6>
+                        <img src="https://static.vecteezy.com/system/resources/thumbnails/017/349/976/small_2x/mileage-needle-measures-the-level-of-business-risk-concept-of-risk-management-before-investing-png.png"
+                             alt="" style="width:100px;height:100px">
+                    </div>
+                </div>
+
+            </div>
+            <div id="website-scan-loader" style="display:none"><span class="loader"></span></div>
+            <div id="website-scan-result"
+                 style="padding:20px;height:80%;overflow-y:scroll;margin-top:20px;display:none">
+                <div class="overview"
+                     style="display:flex;width:80%;padding-top:15px;padding-bottom:15px">
+                    <h6>Analysis results for:</h6>
+                    <p style="margin-left:10px">{{ domainInfo.domain_name.0 }}, {{ domainInfo.domain_name.1 }}</p>
+                </div>
+                <div class="overview" style="display:flex;width:80%">
+                    <h6 style="margin-right:10px">Risk Score:</h6>
+                    {% if overallRisk == 'Safe' %}
+                    <p style="color:#3bed4a">Safe</p>
+                    {% elif overallRisk == 'Moderate' %}
+                    <p style="color:#fa8b23">Moderate</p>
+                    {% else %}
+                    <p style="color:#fa2723">Dangerous</p>
+                    {% endif %}
+
+                </div>
+                <div class="overview" style="display:flex;flex: 0;width:100%;background:rgba(0,0,0,0.1)">
+                    <div class="domain-information"
+                         style="font-size:15px;padding:20px;width:30%;box-sizing: border-box;">
+                        <h6 style="background:rgba(0,0,0,0)">1. Domain Information:</h6>
+                        <ul>
+                            <li><p><strong>Registrar: </strong><span
+                                    class="res-cont-dec">{{ domainInfo.registrar }}</span>
+                            </p></li>
+                            <li><p><strong>Domain name: </strong><span
+                                    class="res-cont-dec">{{ domainInfo.domain_name.0 }}</span>
+                            </p></li>
+                            <li><p><strong>Date created: </strong><span
+                                    class="res-cont-dec"> {{ domainInfo.creation_date}}</span>
+                            </p></li>
+                            <li><p><strong>Expiration date: </strong><span class="res-cont-dec">{{ domainInfo.expiration_date }}</span>
+                            </p></li>
+                            <li><p><strong>Organization: </strong><span class="res-cont-dec">{{ domainInfo.org }}</span>
+                            </p></li>
+                            <li><p><strong>Address: </strong><span class="res-cont-dec">{{ domainInfo.state }}, {{ domainInfo.country }}</span>
+                            </p></li>
+                        </ul>
+                    </div>
+
+                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
+                        <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>
+                        <p id="domain-summary-raw" style="display:none">{{domainInfo.summary}}</p>
+                        <p id="domain-summary-formatted" style="display:block"></p>
+                    </div>
+
+                </div>
+                <hr style="color:grey">
+                <div class="overview" style="display:flex;flex: 0;width:100%;background:rgba(0,0,0,0.1)">
+                    <div class="ssl-information" style="font-size:15px;padding:20px;width:30%;box-sizing: border-box">
+                        <h6 style="background:rgba(0,0,0,0)">2. SSL Certificate:</h6>
+                        {% if sslInfo.success %}
+                        <ul>
+                            <li><p><strong>Domain in Certificate: </strong><span class="res-cont-dec">{{ sslInfo.domain_in_cert }}</span>
+                            </p></li>
+                            <li><p><strong>Validity: </strong>
+                                {% if sslInfo.sslStatus == 'Valid' %}
+                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>
+                                {% else %}
+                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>
+                                {% endif %}</p></li>
+                            <li><p><strong>Expiry: </strong><span class="res-cont-dec">{{ sslInfo.expiry }}</span></p>
+                            </li>
+                            <li><p><strong>Issuer: </strong><span class="res-cont-dec">{{ sslInfo.cert_issuer }}</span>
+                            </p>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <p style="color:#fa2723">This website does not have SSL certificate</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
+                        <h6 style="background:rgba(0,0,0,0);padding-top:25px;font-size:14px;">Summary:</h6>
+                        <p id="ssl-summary-raw" style="display:none">{{sslInfo.summary}}</p>
+                        <p id="ssl-summary-formatted" style="display:block"></p>
+
+                    </div>
+
+                </div>
+                <hr style="color:grey">
+
+                <!--            <div class="overview" style="display:flex;justify-content:space-between;">-->
+                <!--                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">-->
+                <!--                    <h6>3. Content Analysis:</h6>-->
+                <!--                    <ul>-->
+                <!--                        <li><p><strong>Registrar:</strong></p></li>-->
+                <!--                        <li><p><strong>Domain name:</strong></p></li>-->
+                <!--                        <li><p><strong>Date created:</strong></p></li>-->
+                <!--                        <li><p><strong>Expiration date:</strong></p></li>-->
+                <!--                        <li><p><strong>Nameservers:</strong></p></li>-->
+                <!--                        <li><p><strong>Organization:</strong></p></li>-->
+                <!--                        <li><p><strong>Address:</strong></p></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+
+                <!--                <div class="domain info explanation" style="font-size:15px;margin-top:50px">-->
+                <!--                    <h6 style="font-size:14px">Key Take-Aways:</h6>-->
+                <!--                    <ul>-->
+                <!--                        <li><p><strong>SSL Details:</strong> Verify if the site uses a secure HTTPS connection with a-->
+                <!--                            valid-->
+                <!--                            SSL certificate. This ensures that data transmitted between your browser and the site is-->
+                <!--                            encrypted.</p>-->
+                <!--                        </li>-->
+                <!--                        <li><p><strong>Certificate Validity:</strong> See the certificate issuer and its validity period-->
+                <!--                            to-->
+                <!--                            ensure the site is using up-to-date security measures.</p>-->
+                <!--                        </li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+
+                <!--            </div>-->
+                <!--            <hr style="color:grey">-->
+
+                <div class="overview" style="display:flex;justify-content:space-between;background:rgba(0,0,0,0.1">
+                    <div class="domain-information"
+                         style="font-size:15px;padding:20px;width:30%;box-sizing: border-box;">
+                        <h6 style="background:rgba(0,0,0,0)">4. Redirection and Links:</h6>
+                        <ul>
+                            <li><p><strong>Has Redirections: </strong><span class="res-cont-dec">{% if redirectionInfo.hasRedirections %}Yes {% else %} No {% endif %}</span>
+                            </p></li>
+                            <li><p><strong>Number of Redirections: </strong><span class="res-cont-dec">{{ redirectionInfo.numOfRedirects }}</span>
+                            </p></li>
+                            <li><p><strong>Redirects to IP: </strong>{% if redirectionInfo.redirectToIp %}<span
+                                    class="res-cont-dec">Yes </span>{% else %}
+                                <span class="res-cont-dec">  No </span>{% endif %}
+                            </p></li>
+                        </ul>
+                    </div>
+
+                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
+                        <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>
+                        <p id="redirections-summary-raw" style="display:none">{{redirectionInfo.summary}}</p>
+                        <p id="redirections-summary-formatted" style="display:block"></p>
+                    </div>
+
+                </div>
+                <hr style="color:grey">
+                <div class="overview" style="display:flex;justify-center;background:rgba(0,0,0,0.1">
+                    <h6 style="background:rgba(0,0,0,0);padding-top:25px;width:30%;padding-left:20px">Final Summary &
+                        Recommendations:</h6>
+                    <p id="overall-summary-raw" style="display:none">{{recommendation}}</p>
+                    <p id="overall-summary-formatted" style="display:block;width:70%"></p>
+
+                </div>
+                <hr style="color:grey">
+
+            </div>
+
+        </div>
+        <div class="chat-content item-mob" id="reverse-image-search"
+             style="display:none;margin-top:20%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+            <div id="reverse-instruction" style="display:block">
+                <div class="" id="reverse-image-placeholder"
+                     style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:10px;text-align:center">
+                    <div class="section-fun-fact">
+                        <h4>Spot the Fake</h4>
+                        <p>
+                            Scammers often use fake or stolen images to deceive others. With our Reverse Image Search,
+                            you
+                            can quickly trace the origin of any image—whether it’s a product listing, profile photo, or
+                            suspicious content. Protect yourself by identifying potential scams and verifying images
+                            before
+                            you fall for them.
+                        </p>
+                        <p>Upload, search, and stay safe. Try it now! 🖼️🕵️‍♀️</p>
+                    </div>
+                </div>
+                <div style="width:90%;margin-top:10px;display:flex;justify-content:center">
+                    <div class="drop-zone" style="width:80%">
+                        <span class="drop-zone__prompt" style="color:grey">Drop file here or click to upload</span>
+                        <input type="file" name="myFile" id="myFile" class="drop-zone__input">
+                    </div>
+                </div>
+                <div style="width:90%;display:flex;justify-content:center;margin-top:10px">
+                    <div id="image-search-btn" style="width:100px;background-color:#3a3b3b">Search</div>
+                </div>
+
+
+            </div>
+            <div id="reverse-result" style="padding:15px;height:100%;display:none;">
+                <div style="display:flex;height:100%">
+                    <div style="display:flex;justify-content:center;flex-direction:column;height:90%;width:30%;background:rgba(0, 0, 0, 0.15);border-radius:20px">
+                        <div id="subject-img"
+                             style="background-size: contain;background-position: center;background-repeat: no-repeat;width:100%;height:70%;"></div>
+                        <div style="height:30px;background:#3a3b3b;margin-right:20%;margin-left:20%;margin-top:40px;align-items:center;padding:10px;border-radius:10px;cursor:pointer"
+                             id="search-again">
+                            <p style="text-align:center;color:white">Search Again</p></div>
+                    </div>
+                    <div style="display:flex;justify-content:center;width:70%;">
+                        <div>
+                            <p id="ld-status">Results</p>
+                            <div id="grid-cont" style="display:none" class="grid-container">
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                            </div>
+                            <div id="s-loader" class="grid-container">
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                                <div class="grid-item"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="chat-content item-mob" id="verify-company-contact"
+             style="display:none;margin-top:20%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+            <div class="loader" id="loading-state-verif" style="display:none"></div>
+
+            <div id="vcontact-instruction" style="display:block">
+                <div class="" id="ver-contact-placeholder"
+                     style="width:100%;align-items:center;text-align:center">
+                    <div class="section-fun-fact">
+                        <h4>Did a Company You Trust Just Reach Out, or Is It a Scam?</h4>
+                        <p>
+                            Received a call, email, or message from a company you recognize and unsure if it's
+                            authentic? Enter the contact details you’ve received into our verification tool. We’ll check
+                            if they match the company’s official records and help you identify whether it’s truly from
+                            the company or a potential scam. Stay ahead of fraud and keep your communications
+                            secure! </p>
+                    </div>
+                </div>
+                <div style="display:flex;width:100%;margin-top:50px;text-align:center">
+                    <form style="overflow-y:scroll;height:80%;width:100%;"
+                          id="ver-contact-form" method="post"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="contact-title"
+                                   placeholder="Paste the contact (Phone number/email address)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control-input" id="company-name"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   placeholder="Who are they claiming to be? Enter company name" required>
+
+                            <p style="font-size:12px">If the company is local only to
+                                your area(example bank), include the location $ country</p>
+                        </div>
+
+
+                        <div class="form-group"
+                             style="margin-left:20%;margin-right:20%;font-size:20px;align-items:center;margin-top:30px;margin-bottom:20px">
+                            <a class=" btn-solid-sm" style="cursor:pointer" id="submit-contact-ver-form">Let's Find Out
+                                Now</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="vcontact-results" style="display:none">
+                <div class=""
+                     style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:10px;text-align:center;overflow-y:scroll;height:60%;margin-bottom:20px">
+                    <div class="section-fun-fact">
+                        <h4>{{ title }} </h4>
+                        <p>{{ findings }}</p>
+                    </div>
+                    <div style="text-align:start">
+                        <h6>Official Contacts</h6>
+                        <ul>
+                            {% for r in all_official_contacts %}
+                            <li><strong><p>{{ r.title }}</p></strong>
+                                <ul>
+                                    {% for k in r.values %}
+                                    <li><p>{{ k }}</p></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                        {% if not is_contact %}
+                        <h6>Stay Alert! Common Scams </h6>
+                        <ul>
+                            {% for r in common_scams_against_such_companies %}
+                            <li><strong><p>{{ r.scam_name }}</p></strong>
+                                <p>{{ r.scam_description }}</p>
+                                <p>Tips </p>
+                                <ul>
+                                    {% for k in r.mitigation %}
+                                    <li><p>{{ k }}</p></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div style="width:90%;display:flex;justify-content:center;margin-top:10px;margin-bottom:20px">
+                    <div class="new-conversation-btn" id="new-verify"
+                         style="width:200px;background-color:#3a3b3b;display:block">Verify Again
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="chat-content item-mob" id="scam-recovery-help"
+             style="display:none;margin-top:20%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+        </div>
+        <div class="chat-content item-mob" id="fraud-education-center" style="display:none;margin-top:20%;width:90%">
+
+        </div>
+        <div class="chat-content item-mob" id="scam-trend-content" style="display:none;margin-top:20%;width:90%">
+
+        </div>
+        <div class="chat-content item-mob" id="scam-heatmap-content" style="display:none;margin-top:20%;width:90%">
+
+        </div>
+        <div class="chat-content item-mob" id="community-content" style="display:none;margin-top:20%;width:90%">
+
+        </div>
+        <div class="chat-content item-mob" id="help-content" style="display:none;margin-top:20%;width:90%">
+
+        </div>
+        <div class="chat-content " id="report-scam"
+             style="display:none;margin-top:20%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+
+            <div class="" id="report-placeholder"
+                 style="align-items:center;;text-align:center;display:block">
+                <div class="section-fun-fact">
+                    <h4>Together, We Stand Strong Against Scams</h4>
+                    <p>
+                        <strong>"The only thing necessary for the triumph of evil is for good men to do
+                            nothing."</strong>–
+                        Edmund Burke
+                    </p>
+                    <p>We value the collective power of our community in the fight against fraud. By reporting scams,
+                        you
+                        not only safeguard yourself but also help protect countless others. The information you
+                        provide—excluding any personal details—may be utilized to improve our detection capabilities and
+                        make our platform even more effective at identifying and preventing new scams. Together, we can
+                        build a
+                        safer online environment for everyone.</p>
+
+                    <a class="quote" id="report-redirect" style="cursor:pointer">Report Now<i class="fas fa-arrow-right"
+                                                                                              style="margin-left:10px"></i></a>
+
+                </div>
+            </div>
+
+            <div id="report-form" style="display:none;justify-content:center;width:100%;height:100%;margin-top:20px">
+                <div style="">
+                    <div style="display:flex;justify-content:space-between;padding:15px;">
+                        <div class="section-fun-fact" style="width:50%">
+                            <p>Share your experience below️</p>
+                        </div>
+                        <div style="height:20px;">
+                            <a class="btn-solid-sm" id="cancel-report-btn"
+                               style="cursor:pointer;display:block;padding:15px">Discard
+                                & Close
+                            </a>
+                        </div>
+                    </div>
+
+                    <form style="z-index:-100" id="report-input-form" method="post"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="report-title"
+                                   placeholder="Give it a title" required>
+                        </div>
+                        <div class="form-group">
+                    <textarea class="form-control-textarea"
+                              placeholder="Describe what happened"
+                              style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                              id="report-details"
+                              required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="report-type"
+                                   placeholder="Was it online or physical?" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="report-location"
+                                   placeholder="Where did this happen? (Location if physical / Platform if online)"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="report-action"
+                                   placeholder="Have you taken any action? (if yes, what action)" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control-input"
+                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   id="report-action-result"
+                                   placeholder="Did the action above help in any way? (leave blank if your answer above is No)"
+                                   required>
+                        </div>
+
+                        <div id="preview" style="margin:10px">
+                        </div>
+                        <p style="font-size:12px;display:none" id="image-delete-instruction">Tap on image to remove</p>
+                        <p style="font-size:12px;display:block">Add screenshots and other supporting images</p>
+                        <div>
+                            <input class="file-upload-input" type="file" id="myScreenshots" name="submitted" multiple
+                                   onchange="FileVerification(event)" style="border-radius:10px">
+                        </div>
+                        <div style="text-align:center;font-size:12px;align-items:center">
+                            <p id="error-mess-report" style="color:red"></p>
+                            <p id="suc-mess-report" style="color:lime"></p>
+                        </div>
+
+                        <div class="form-group"
+                             style="text-align:center;font-size:20px;align-items:center;margin-top:10px;margin-bottom:20px">
+                            <a class=" btn-solid-sm" style="cursor:pointer" id="submit-report-form">Submit</a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="chat-content item-mob" id="feature-request"
+             style="display:none;margin-top:20%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+            <div class="" id="feature-request-placeholder"
+                 style="margin-top:20px;text-align:center">
+                <div style="display:flex;justify-content:space-between;">
+                    <div class="section-fun-fact" style="width:50%">
+                        <p>Help Us Improve – Suggest a Feature or Report an Issue!️</p>
+                    </div>
+                    <div style="height:20px">
+                        <a class="btn-solid-sm" id="request-btn" style="cursor:pointer;padding:15px">Request</a>
+                        <a class="btn-solid-sm" id="cancel-request-btn"
+                           style="cursor:pointer;display:none;padding:15px">Discard
+                            & Close
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <section id="requests-section" class="games" style="">
+                {% if freqs|length > 0 %}
+                <div class="container" id="all-feature-requests">
+                    <ul class="game-list">
+                        {% for f in freqs %}
+                        <li class="game" style="font-size:15px">
+                            {% if f.feature_introduced %}
+                            <div class="game-likes" data-id="{{ f.id }}">
+                                <p class="req-id" hidden>{{ f.id }}</p>
+                                <span class="game-like-icon"><i class="fa fa-check" aria-hidden="true"
+                                                                style="color:lime"></i></span>
+                                <span class="game-like-count">{{ f.upvotes }}</span>
+                            </div>
+                            {% else %}
+                            <div class="game-likes" data-id="{{ f.id }}">
+                                <p class="req-id" hidden>{{ f.id }}</p>
+                                <span class="game-like-icon"><span
+                                        class="material-symbols-outlined">arrow_drop_up</span></span>
+                                <span class="game-like-count">{{ f.upvotes }}</span>
+                            </div>
+
+                            {% endif %}
+                            <div class="game-content">
+                                <h6 class="game-title">
+                                    <a>{{ f.title }}</a>
+                                </h6>
+                                <span class="game-tagline" style="font-size:12px">{{ f.content }}</span>
+                                <!--                            <span class="game-time-ago" data-bind="text: created">6 mins</span>-->
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% else %}
+                <div style="display:flex;justify-content:center;margin-top:20%;text-align:center">
+                    <p>There are no feature requests at the moment. Create one now</p>
+                </div>
+                {% endif %}
+            </section>
+            <div id="request-form" style="display:none;justify-content:center;width:100%;height:100%;margin-top:5%">
+                <form style="width:100%" id="request-input-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control-input" id="request-title"
+                               style="border:solid 1px grey;border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0)"
+                               placeholder="Title" required>
+                    </div>
+                    <div class="form-group">
+                    <textarea class="form-control-textarea" placeholder="Tell us more" id="request-details"
+                              style="border:solid 1px grey;border-radius:15px;width:100%;box-sizing: border-box;"
+                              required></textarea>
+                    </div>
+                    <div style="text-align:center;font-size:12px;align-items:center">
+                        <p id="error-mess-request" style="color:red"></p>
+                        <p id="suc-mess-request" style="color:lime"></p>
+                    </div>
+                    <div class="form-group" style="text-align:center;font-size:20px;align-items:center">
+                        <a class=" btn-solid-sm" style="cursor:pointer" id="submit-request-form">Submit</a>
+                    </div>
+                </form>
+
+
+            </div>
+
         </div>
     </div>
+
+
+    <!--    <div class="chat-content">-->
+    <!--        <div class="chat-header">-->
+    <!--            <div class="logo-container" style="margin-left:10px" id="open-side-nav">-->
+    <!--                <i class="fa fa-bars" style="font-size:24px"></i>-->
+    <!--            </div>-->
+    <!--            <div class="mode-toggle ">-->
+    <!--                <label class="switch">-->
+    <!--                    <input type="checkbox"-->
+    <!--                           id="mode-toggle-checkbox">-->
+    <!--                    <span class="slider round dark-mode"></span>-->
+    <!--                </label>-->
+    <!--            </div>-->
+
+    <!--        </div>-->
+    <!--        <div class="chat-box" id="chat-box"></div>-->
+    <!--        <div class="input-container" style="width:90%">-->
+    <!--            <i class="fas fa-upload start-icon" style="font-size:20px"></i> &lt;!&ndash; Icon at the start &ndash;&gt;-->
+    <!--            <textarea placeholder="How can I help you today?"></textarea>-->
+    <!--            <i class="fa fa-paper-plane end-icon" style="font-size:20px"></i> &lt;!&ndash; Icon at the end &ndash;&gt;-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+
 </div>
 <script>
     $(document).ready(function() {
@@ -151,8 +1077,323 @@
         });
     });
 
+$(document).ready(function() {
+    $('#quick-links li').click(function() {
+        // Remove the 'active' class from all li elements
+        $('#quick-links li').removeClass('active');
+        // Add the 'active' class to the clicked li element
+        $(this).addClass('active');
+        // Get the target content ID from the data-target attribute
+        var target = $(this).data('target');
+        // Hide all content sections
+        $('.chat-content').hide();
+        // hide the sidebar
+        $('#sidebar-switch').hide();
+        // Show the corresponding content section
+        $(target).show();
+    });
+    $('#new-conversation-btn-left').click(function() {
+        // Remove the 'active' class from all li elements
+        $('#quick-links li').removeClass('active');
+        //restore default state
+        $('#analyse-details').val('');//delete prompt
+        $('#analyse-details').val('');//delete prompt
+        $('#preview_imgs').empty();//delete prompt and images
+        $('#chat-box').css('display','none');//open chat box
+        $('#intro-placeholder').css('display','block');//remove default message
+        $('#input-container').css('display','block');//hide input field
+        $('#new-conversation').css('display','none');//show new conversation button
+        $('#screenshot-upload').css('display','block');
+        $('#scam_indx').text('')
+        $('#sidebar-switch').hide();
+
+        $('#analyse-convo').addClass('active');
+        // Add the 'active' class to the clicked li element
+        var target = $('#analyse-convo').data('target');
+        // Hide all content sections
+        $('.chat-content').hide();
+        // Show the corresponding content section
+        $(target).show();
+    });
+});
 </script>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/website-scan.js' %}"></script>
+<script src="{% static 'js/verify-contact.js' %}"></script>
+<script src="{% static 'js/upload.js' %}"></script>
+<script src="{% static 'js/report-scam.js' %}"></script>
+<script src="{% static 'js/feature-request.js' %}"></script>
+<script src="{% static 'js/reverse-image-search.js' %}"></script>
+<script src="{% static 'js/analyse-conversation.js' %}"></script>
+
+<script>
+    var preferences="{{ theme }}"
+    if(preferences =='dark-mode'){
+        $('.mode-toggle-checkbox').each(function() {
+            $(this).prop('checked', true);
+        });
+     }
+
+</script>
+<script type="text/javascript">
+    window.DjangoURLs = {
+        home: "{% url 'home' %}",
+        login: "{% url 'login' %}",
+        logout: "{% url 'logout' %}"
+    };
+</script>
+<script>
+
+var valideImages = [];
+var imageContainer = [];
+
+
+$(document).ready(function() {
+    var homeUrl = window.DjangoURLs.home;
+    $('#submit-report-form').click(function(){
+    $('#error-mess-report').css('display','none');
+    $('#suc-mess-report').css('display','none');
+    var title=$('#report-title').val();
+    var desc=$('#report-details').val();
+    var loc=$('#report-location').val();
+    var type_l=$('#report-type').val();
+    var action=$('#report-action').val();
+    var action_r=$('#report-action-result').val();
+    if(title == '' || desc == ''){
+        $('#error-mess-report').text('Please fill all the fields');
+        $('#error-mess-report').css('display','block');
+        return;
+    }
+    $('#error-mess-report').css('display','none');
+
+    var data = new FormData();
+    for (var i = 0; i < valideImages.length; i++) {
+        var file = valideImages[i];
+        if (file instanceof File) {
+            data.append('files[]', file); // 'files[]' is the key for Django to process the files
+        } else {
+            console.error('File is not of type File:', file);
+        }
+    }
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    data.append('feature', 'report-scam');
+    data.append('title',title);
+    data.append('description',desc);
+    data.append('location',loc);
+    data.append('action',action);
+    data.append('type',type_l);
+    data.append('action_result',action_r);
+    $.ajax({
+            url: homeUrl,  // Adjust URL to your Django view
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            data: data,
+            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+            contentType: false,  // Prevent jQuery from setting the Content-Type header
+            success: function(response) {
+
+                if (response['result'] != 'success'){
+                    $('#error-mess-report').text('Your report could not be submitted. Try again');
+                    $('#error-mess-report').css('display','block');
+
+                    return;
+                }
+                $('#suc-mess-report').text('Your report was submitted successfully! Thank you');
+                $('#suc-mess-report').css('display','block');
+                $('#image-delete-instruction').css('display','none');
+                $('#preview').empty();
+                $('#report-title').val('');
+                $('#report-details').val('');
+                $('#report-type').val('');
+                $('#report-location').val('');
+                $('#report-action').val('');
+                $('#report-action-result').val('');
+                valideImages = [];
+                imageContainer = [];
+
+
+            },
+            error: function(xhr, status, error) {
+                alert('File upload failed.');
+                console.error('Error:', error);
+                    $('#error-mess-request').text('Your message could not be sent. Try again');
+                    $('#error-mess-request').css('display','block');
+
+            }
+        });
+      });
+
+
+//upvote
+});
+function isFileInArray(file, fileArray) {
+    return fileArray.some(f => f.name === file.name && f.size === file.size && f.type === file.type);
+}
+
+function addFileToArray(file, fileArray) {
+    if (!isFileInArray(file, fileArray)) {
+        fileArray.push(file);
+        console.log('File added:', file.name);
+    } else {
+        console.log('File already in array:', file.name);
+    }
+}
+
+function FileVerification(event) {
+    var validatedFiles = [];
+
+    var errorStatement = "";
+
+    var files = event.target.files;
+
+    var minImageWidth = 400;
+    var minImageHeight = 400;
+
+    var nbMaxImages = 5;
+
+
+    //verification du nombre d<images:
+    if ((files.length > nbMaxImages) || (validatedFiles > 5 ||imageContainer>5 )) {
+        //files.splice(0,5)
+        alert("Maximum number of images is 5");
+
+    }
+
+
+    for (var i = 0; i < files.length; i++) {
+
+        //image Informations
+        var fileName = files[i].name;
+        var fileType = files[i].type;
+        var fileSize = files[i].size;
+        var ImageHeight;
+        var ImageWidth;
+
+        var reader = new FileReader();
+        var image = new Image();
+        image.src = reader.readAsDataURL(files[i]);
+        ImageWidth = image.width;
+        ImageHeight = image.height;
+
+
+        //Verification du format des images
+        if ((fileType != "image/png") &&
+            (fileType != "image/jpeg") &&
+            (fileType != "image/jpg")) {
+            errorStatement += "File format not supported";
+
+
+            //verification de la qualit
+        } else if ((ImageHeight < minImageHeight) && (ImageWidth > minImageWidth)) {
+
+            errorStatement += "Resolution too low";
+
+            //verifier le poids de toutes les images
+        } else {
+            addFileToArray(files[i], imageContainer);
+            validatedFiles.push(files[i]);
+
+        }
+
+    }
+
+    if (errorStatement != "") {
+
+        alert(errorStatement);
+
+    }
+
+    valideImages = imageContainer;
+//    valideImages = validatedFiles;
+    FileDisplayA(validatedFiles);
+}
+
+
+
+function FileDisplayA(files) {
+
+  var preview = document.querySelector('#preview');
+
+  function readAndPreview(file) {
+
+    // Make sure `file.name` matches our extensions criteria
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onloadend = function () {
+        $('#image-delete-instruction').css('display','block');
+        var image = new Image();
+        image.height = 200;
+        image.style.borderRadius = "10px";
+        image.style.margin = "10px";
+        image.title = file.name;
+        image.src = this.result;
+        var nImage = $(image).on('click', function(){
+            $(this).fadeOut(500, function() {
+                // Remove image element from DOM
+                $(this).remove();
+            // Remove file from the array
+            files = files.filter(f => f.name !== file.name);
+            var imageCount = $('#preview').children().length;
+            // Optional: Hide the delete instruction if there are no images
+            if (imageCount == 0) {
+                $('#image-delete-instruction').css('display', 'none');
+            }
+        });
+        });
+        preview.appendChild(image);
+            // Add file to the array if it’s not already there
+        if (!files.some(f => f.name === file.name)) {
+            files.push(file);
+        }
+
+      };
+    }
+
+  if (files) {
+    [].forEach.call(files, readAndPreview);
+  }
+}
+
+
+function create_zip(Images) {
+    var zip = new JSZip();
+    var zipChunk = new JSZip();
+    var Count = 0;
+
+    // Loop through all images and add them to zip chunks
+    for (var i = 0; i < Images.length; i++) {
+        var file = Images[i];
+
+        // Check if the file is a Blob (File)
+        if (file instanceof Blob) {
+            if ((i % 99) != 0) {
+                zipChunk.file(file.name, file);
+            } else {
+                zip.file("Chunk" + Count, zipChunk);
+                zipChunk = new JSZip();  // Reset zipChunk
+                Count++;
+            }
+        } else {
+            console.error('Invalid file type:', file);
+        }
+    }
+
+    // Add any remaining files in zipChunk to the main zip file
+    if (zipChunk.files.length > 0) {
+        zip.file("Chunk" + Count, zipChunk);
+    }
+
+    // Generate the zip file as a Blob (asynchronously)
+    return zip.generateAsync({ type: "blob" });
+}
+
+
+
+</script>
+
 </body>
 
 </html>

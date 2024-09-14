@@ -103,18 +103,7 @@ if (gridCheck !== null) {
 		layoutMode: 'fitRows'
 	});
 
-	// bind filter button click
-	var filtersElem = document.querySelector('.filters-button-group');
-	filtersElem.addEventListener( 'click', function( event ) {
-		// only work with buttons
-		if ( !matchesSelector( event.target, 'button' ) )  {
-			return;
-		}
-		var filterValue = event.target.getAttribute('data-filter');
-		// use matching filter function
-		iso.arrange({ filter: filterValue });
-	});
-	
+
 	// change is-checked class on buttons
 	var buttonGroups = document.querySelectorAll('.button-group');
 	for ( var i=0, len = buttonGroups.length; i < len; i++ ) {
@@ -137,14 +126,15 @@ if (gridCheck !== null) {
 
 /* Back To Top Button */
 // Get the button
-myButton = document.getElementById("myBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
+//var myButton = document.getElementById("myBtn");
+//
+//// When the user scrolls down 20px from the top of the document, show the button
 function scrollFunctionBTT() {
+
 	if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-		myButton.style.display = "block";
+		$('#myBtn').css('display','block');
 	} else {
-		myButton.style.display = "none";
+		$('#myBtn').css('display','none');
 	}
 }
 

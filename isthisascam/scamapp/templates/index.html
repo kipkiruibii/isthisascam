@@ -34,15 +34,78 @@
     <link href="{% static 'css/fontawesome-all.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Favicon  -->
     <link rel="icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href=
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
     <!--    <link rel="stylesheet" href="{% static  'css/main.css' %}">-->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <!--    GOOGLE ANALYTICS TRACKING-->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R3C8P55552"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-R3C8P55552');
+    </script>
+
+    <style>
+        .loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+  display:block;;
+    }
+    .loader::after,
+    .loader::before {
+      content: '';
+      box-sizing: border-box;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid grey;
+      position: absolute;
+      left: 0;
+      top: 0;
+      animation: animloader 2s linear infinite;
+    }
+    .loader::after {
+      animation-delay: 1s;
+    }
+
+    @keyframes animloader {
+      0% {
+        transform: scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0;
+      }
+    }
+
+
+    </style>
 </head>
 <body data-bs-spy="scroll" data-bs-target="#navbarExample">
+<div class="payment-loading"
+     style="background-color:rgba(0,0,0,0.9);position:fixed;top:0;left:0;width:100%;height:100%;z-index:3000;display:none;justify-content:center;vertical-align: middle;">
+    <div class="loader">
+    </div>
 
+</div>
 <!-- Navigation -->
 <nav id="navbarExample" class="navbar navbar-expand-lg fixed-top navbar-light" aria-label="Main navigation">
     <div class="container">
@@ -83,7 +146,7 @@
 
 
 <!-- Header -->
-<header id="header" class="header">
+<header id="header" class="header" style="padding-top:25%;padding-bottom:80px">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-xl-5">
@@ -99,7 +162,8 @@
             </div> <!-- end of col -->
             <div class="col-lg-6 col-xl-7">
                 <div class="image-container">
-                    <img class="img-fluid" src="{% static 'images/header-illustration.svg' %}" alt="protect yourself from scam">
+                    <img class="img-fluid" src="{% static 'images/header-illustration.svg' %}"
+                         alt="protect yourself from scam">
                 </div> <!-- end of image-container -->
             </div> <!-- end of col -->
         </div> <!-- end of row -->
@@ -109,7 +173,7 @@
 
 
 <!-- how it works -->
-<div id="how-it-works" class="cards-1">
+<div id="how-it-works" class="cards-1" style="padding-top:10px;padding-bottom:10px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -159,7 +223,7 @@
 
 
 <!-- Details 1 -->
-<div id="details" class="basic-1">
+<div id="details" class="basic-1" style="padding-top:10px;padding-bottom:10px">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-xl-7">
@@ -183,7 +247,7 @@
 
 
 <!-- Details 2 -->
-<div class="counter">
+<div class="counter" style="padding-top:10px;padding-bottom:10px">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-xl-5">
@@ -196,16 +260,17 @@
                     <!-- Counter -->
                     <div class="counter-container">
                         <div class="counter-cell">
-                            <div data-purecounter-start="0" data-purecounter-end="1000" data-purecounter-duration="2"
+                            <div data-purecounter-start="0" data-purecounter-end="1" data-purecounter-duration="2"
                                  class="purecounter">1
                             </div>
-                            <div class="counter-info">Conversations analysed</div>
+                            <div class="counter-info">Million people targeted daily</div>
                         </div> <!-- end of counter-cell -->
                         <div class="counter-cell red">
-                            <div data-purecounter-start="0" data-purecounter-end="400" data-purecounter-duration="2"
+                            <!--                            <p class="purecounter" data-purecounter-end="10000000" data-purecounter-duration="1">$10 B+</p>-->
+                            <div data-purecounter-start="0" data-purecounter-end="10" data-purecounter-duration="2"
                                  class="purecounter">1
                             </div>
-                            <div class="counter-info">Scams reported</div>
+                            <div class="counter-info">Billion Dollars Stolen in 2023</div>
                         </div> <!-- end of counter-cell -->
                     </div> <!-- end of counter-container -->
                     <!-- end of counter -->
@@ -223,8 +288,8 @@
 <!-- end of details 2 -->
 
 
-<!-- testimonials -->
-<div id="features" class="filter bg-gray">
+<!-- features -->
+<div id="features" class="filter bg-gray" style="padding-top:80px;padding-bottom:80px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -235,234 +300,265 @@
             <div class="col-lg-12">
 
                 <div class="grid">
-                    <div class="element-item development">
-                        <img class="img-fluid" src="{% static 'images/data_analys.jpg' %}" alt="scam analysis">
-                        <p><strong>Scam Analysis</strong> - Get in-depth analysis of suspicious messages, emails, or
-                            texts. Our advanced AI dissects every detail to determine the likelihood of a scam,
-                            helping you stay one step ahead of fraudsters. Protect yourself and your data with
-                            confidence
-                        </p>
-                    </div>
-                    <div class="element-item development">
-                        <img class="img-fluid" src="{% static 'images/web_scan.jpg' %}" alt="scan website">
-                        <p><strong>Website scan</strong> - Ensure the websites you visit are safe and secure. Our
-                            tool scans for malicious content, phishing attempts, and other threats, giving you peace
-                            of mind before you click. Don’t let a shady website compromise your security.</p>
-                    </div>
-                    <div class="element-item development">
-                        <img class="img-fluid" src="{% static 'images/image_search.jpg' %}" alt="reverse image search">
-                        <p><strong>Reverse Image Search</strong> - Uncover the truth behind images with our reverse
-                            image search. Find out if an image has been used elsewhere on the web, detect potential
-                            scams, and verify authenticity. It’s your go-to tool for confirming if a picture is
-                            worth trusting</p>
-                    </div>
-                </div> <!-- end of grid -->
-                <!-- end of filter -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of filter -->
-<!-- end of features -->
-
-
-<!-- Testimonials -->
-<div id="testimonials" class="filter slider-1">
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="h2-heading">Testimonials</h2>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-
-        <div class="row">
-            <div class="col-lg-12">
-
-                <!-- Card Slider -->
-                <div class="slider-container">
-                    <div class="swiper-container card-slider">
-                        <div class="swiper-wrapper">
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <img class="quotes" src="{% static 'images/quotes.svg' %}" alt="testimonials for scam detection">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Fusce tincidunt dui nec diam varius venenatis.
-                                            Nullam tristique rutrum odio, ut tincidunt erat dictum in. Etiam et aliquet
-                                            mi, et vehicula elit fusce porta ullamcorper</p>
-                                        <div class="details">
-                                            <img class="testimonial-image" src="{% static 'images/testimonial-1.jpg' %}"
-                                                 alt="testimonials for scam detection">
-                                            <div class="text">
-                                                <div class="testimonial-author">Samantha Bloom</div>
-                                                <div class="occupation">Team Leader - Syncnow</div>
-                                            </div> <!-- end of text -->
-                                        </div> <!-- end of testimonial-details -->
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <img class="quotes" src="{% static 'images/quotes.svg' %}" alt="testimonials for scam detection">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Mauris ut mattis nisl. Nunc ultrices nisi eget nisl
-                                            pulvinar iaculis vitae ac nulla. Nullam fringilla varius blandit. Nam sit
-                                            amet eleifend justo blogo rovan de chichis kokos venir dab</p>
-                                        <div class="details">
-                                            <img class="testimonial-image" src="images/testimonial-2.jpg"
-                                                 alt="testimonials for scam detection">
-                                            <div class="text">
-                                                <div class="testimonial-author">Mike Page</div>
-                                                <div class="occupation">Developer - Chainlink</div>
-                                            </div> <!-- end of text -->
-                                        </div> <!-- end of testimonial-details -->
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <img class="quotes" src="{% static 'images/quotes.svg' %}" alt="testimonials for scam detection">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Nam sit amet eleifend justo. Aliquam sit amet
-                                            lacinia enim, eget facilisis ex. Ut pretium cursus eleifend. Integer feugiat
-                                            malesuada quam vel basil venis proca jilo</p>
-                                        <div class="details">
-                                            <img class="testimonial-image" src="{% static 'images/testimonial-3.jpg' %}"
-                                                 alt="testimonials for scam detection">
-                                            <div class="text">
-                                                <div class="testimonial-author">Mary Longhorn</div>
-                                                <div class="occupation">Manager - Firstdev</div>
-                                            </div> <!-- end of text -->
-                                        </div> <!-- end of testimonial-details -->
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                            <!-- Slide -->
-                            <div class="swiper-slide">
-                                <div class="card">
-                                    <img class="quotes" src="{% static 'images/quotes.svg' %}" alt="testimonials for scam detection">
-                                    <div class="card-body">
-                                        <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur ing elit.
-                                            Nulla id nisl tempus risus facilisis efficr ut tincidunt vitae enim non
-                                            vehicula. Phases vitae metus in felis gravida ultrices zimbo</p>
-                                        <div class="details">
-                                            <img class="testimonial-image" src="{% static 'images/testimonial-4.jpg' %}"
-                                                 alt="testimonials for scam detection">
-                                            <div class="text">
-                                                <div class="testimonial-author">Ronny Drummer</div>
-                                                <div class="occupation">Designer - Sawdust</div>
-                                            </div> <!-- end of text -->
-                                        </div> <!-- end of testimonial-details -->
-                                    </div>
-                                </div>
-                            </div> <!-- end of swiper-slide -->
-                            <!-- end of slide -->
-
-                        </div> <!-- end of swiper-wrapper -->
-
-                        <!-- Add Arrows -->
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                        <!-- end of add arrows -->
-
-                    </div> <!-- end of swiper-container -->
-                </div> <!-- end of slider-container -->
-                <!-- end of card slider -->
-
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of slider-1 -->
-<!-- end of testimonials -->
-
-
-<!-- Pricing -->
-<div id="pricing" class="cards-2">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="h2-heading"><span>Choose the package</span><br> a plan for everybody</h2>
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-        <div class="row">
-            <div class="col-lg-12" style="display:flex;justify-content:space-around">
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"
-                                 alt="cheap personal scam protection pricing plan $1.99 per scan "><span>No Commitment</span><img
-                                class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %}"
-                                alt="cheap personal scam protection pricing plan $1.99 per scan">
+                    <div class="">
+                        <div class="element-item development">
+                            <img class="img-fluid" src="{% static 'images/data_analys.jpg' %}" alt="scam analysis">
+                            <p><strong>Scam Analysis</strong> - Get in-depth analysis of suspicious messages, emails, or
+                                texts. Our advanced AI dissects every detail to determine the likelihood of a scam,
+                                helping you stay one step ahead of fraudsters. Protect yourself and your data with
+                                confidence
+                            </p>
                         </div>
-                        <ul class="list-unstyled li-space-lg">
-                            <li>3 analyses</li>
-                            <li>3 website scan</li>
-                            <li>1 Reverse Image Search</li>
-                            <li>Comprehensive report</li>
-                        </ul>
-                        <div class="price">$1.99</div>
-                        <a href="#contact" class="btn-outline-reg">Buy Now</a>
-                    </div>
-                </div>
-                <!-- end of card -->
-
-                <!-- Card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-title">
-                            <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"
-                                 alt="cheap personal scam protection pricing plan $9.99 per month"><span>Personal</span><img
-                                class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %} "
-                                alt="cheap personal scam protection pricing plan $9.99 per month">
+                        <div class="element-item development">
+                            <img class="img-fluid" src="{% static 'images/web_scan.jpg' %}" alt="scan website">
+                            <p><strong>Website scan</strong> - Ensure the websites you visit are safe and secure. Our
+                                tool scans for malicious content, phishing attempts, and other threats, giving you peace
+                                of mind before you click. Don’t let a shady website compromise your security.</p>
                         </div>
-                        <ul class="list-unstyled li-space-lg">
-                            <li>1000 analyses per month</li>
-                            <li>1000 website scan per month</li>
-                            <li>500 Reverse Image Search per month</li>
-                            <li>Comprehensive report</li>
-                        </ul>
-                        <div class="price">$9.99</div>
-                        <a href="#contact" class="btn-outline-reg">Subscribe</a>
-                    </div>
-                </div>
-                <!-- end of card -->
-<!--                TODO implement business pricing-->
-                <!-- Card -->
-<!--                <div class="card">-->
-<!--                    <div class="card-body">-->
-<!--                        <div class="card-title">-->
-<!--                            <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"-->
-<!--                                 alt="robust business scam protection pricing plan $199.99 per month"><span>Business</span><img-->
-<!--                                class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %}"-->
-<!--                                alt="robust business scam protection pricing plan $199.99 per month">-->
-<!--                        </div>-->
-<!--                        <ul class="list-unstyled li-space-lg">-->
-<!--                            <li>1M analyses per month</li>-->
-<!--                            <li>1M website scan per month</li>-->
-<!--                            <li>Bulk analyses for Emails and Messages</li>-->
-<!--                            <li>50,000 Reverse Image Search per month</li>-->
-<!--                            <li>Comprehensive report</li>-->
-<!--                            <li>Custom Brand Protection from Impersonation</li>-->
-<!--                            <li>API integration</li>-->
-<!--                        </ul>-->
-<!--                        <div class="price">$199</div>-->
-<!--                        <a href="#contact" class="btn-outline-reg">Subscribe</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-                <!-- end of card -->
+                        <div class="element-item development">
+                            <img class="img-fluid" src="{% static 'images/image_search.jpg' %}"
+                                 alt="reverse image search">
+                            <p><strong>Verify Business Contact</strong> - Verify Business Contact ensures you're
+                                interacting
+                                with genuine organizations by analyzing emails, phone numbers, and websites. Protect
+                                yourself from scams by confirming that business contacts are authentic and trustworthy
+                                before sharing any sensitive information. Stay safe and secure with reliable
+                                verification.
+                            </p>
+                        </div>
+                        <!--                    <div class="element-item development">-->
+                        <!--                        <img class="img-fluid" src="{% static 'images/image_search.jpg' %}" alt="reverse image search">-->
+                        <!--                        <p><strong>Reverse Image Search</strong> - Uncover the truth behind images with our reverse-->
+                        <!--                            image search. Find out if an image has been used elsewhere on the web, detect potential-->
+                        <!--                            scams, and verify authenticity. It’s your go-to tool for confirming if a picture is-->
+                        <!--                            worth trusting</p>-->
+                        <!--                    </div>-->
+                    </div> <!-- end of grid -->
+                    <!-- end of filter -->
 
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of filter -->
+    <!-- end of features -->
+
+
+    <!-- Testimonials -->
+    <div id="testimonials" class="filter slider-1" style="padding-top:80px;padding-bottom:80px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h2-heading">Inspiration</h2>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <!-- Card Slider -->
+                    <div class="slider-container">
+                        <div class="swiper-container card-slider">
+                            <div class="swiper-wrapper">
+
+                                <!-- Slide -->
+                                <!--                            <div class="swiper-slide">-->
+                                <div class="card">
+                                    <img class="quotes" src="{% static 'images/quotes.svg' %}"
+                                         alt="A word from the sounder">
+                                    <div class="card-body">
+                                        <p class="testimonial-text">The inspiration for isThisAScam came from a deeply
+                                            personal experience when my mother was almost defrauded of her life savings.
+                                            Thankfully, she avoided the scam, but the close call revealed just how
+                                            vulnerable people can be to online fraud. I developed this platform to help
+                                            others quickly identify potential scams, providing them with a tool that can
+                                            offer the protection and peace of mind my family and I needed. isThisAScam
+                                            is a resource built to empower users and protect their hard-earned money
+                                            from malicious actors online.</p>
+                                        <div class="details">
+                                            <img class="testimonial-image" src="{% static 'images/testimonial-2.jpg' %}"
+                                                 alt="CEO -Roniib">
+                                            <div class="text">
+                                                <div class="testimonial-author">Hezron Bii</div>
+                                                <div class="occupation">CEO & Founder</div>
+                                            </div> <!-- end of text -->
+                                        </div> <!-- end of testimonial-details -->
+                                    </div>
+                                </div>
+                                <!--                            </div> &lt;!&ndash; end of swiper-slide &ndash;&gt;-->
+                                <!-- end of slide -->
+
+                                <!-- Slide -->
+                                <!--                            <div class="swiper-slide">-->
+                                <!--                                <div class="card">-->
+                                <!--                                    <img class="quotes" src="{% static 'images/quotes.svg' %}"-->
+                                <!--                                         alt="testimonials for scam detection">-->
+                                <!--                                    <div class="card-body">-->
+                                <!--                                        <p class="testimonial-text">Mauris ut mattis nisl. Nunc ultrices nisi eget nisl-->
+                                <!--                                            pulvinar iaculis vitae ac nulla. Nullam fringilla varius blandit. Nam sit-->
+                                <!--                                            amet eleifend justo blogo rovan de chichis kokos venir dab</p>-->
+                                <!--                                        <div class="details">-->
+                                <!--                                            <img class="testimonial-image" src="{% static 'images/testimonial-1.jpg' %}"-->
+                                <!--                                                 alt="testimonials for scam detection">-->
+                                <!--                                            <div class="text">-->
+                                <!--                                                <div class="testimonial-author">Mike Page</div>-->
+                                <!--                                                <div class="occupation">Developer - Chainlink</div>-->
+                                <!--                                            </div> &lt;!&ndash; end of text &ndash;&gt;-->
+                                <!--                                        </div> &lt;!&ndash; end of testimonial-details &ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div> &lt;!&ndash; end of swiper-slide &ndash;&gt;-->
+                                <!--                            &lt;!&ndash; end of slide &ndash;&gt;-->
+
+                                <!--                            &lt;!&ndash; Slide &ndash;&gt;-->
+                                <!--                            <div class="swiper-slide">-->
+                                <!--                                <div class="card">-->
+                                <!--                                    <img class="quotes" src="{% static 'images/quotes.svg' %}"-->
+                                <!--                                         alt="testimonials for scam detection">-->
+                                <!--                                    <div class="card-body">-->
+                                <!--                                        <p class="testimonial-text">Nam sit amet eleifend justo. Aliquam sit amet-->
+                                <!--                                            lacinia enim, eget facilisis ex. Ut pretium cursus eleifend. Integer feugiat-->
+                                <!--                                            malesuada quam vel basil venis proca jilo</p>-->
+                                <!--                                        <div class="details">-->
+                                <!--                                            <img class="testimonial-image" src="{% static 'images/testimonial-3.jpg' %}"-->
+                                <!--                                                 alt="testimonials for scam detection">-->
+                                <!--                                            <div class="text">-->
+                                <!--                                                <div class="testimonial-author">Mary Longhorn</div>-->
+                                <!--                                                <div class="occupation">Manager - Firstdev</div>-->
+                                <!--                                            </div> &lt;!&ndash; end of text &ndash;&gt;-->
+                                <!--                                        </div> &lt;!&ndash; end of testimonial-details &ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div> &lt;!&ndash; end of swiper-slide &ndash;&gt;-->
+                                <!--                            &lt;!&ndash; end of slide &ndash;&gt;-->
+
+                                <!--                            &lt;!&ndash; Slide &ndash;&gt;-->
+                                <!--                            <div class="swiper-slide">-->
+                                <!--                                <div class="card">-->
+                                <!--                                    <img class="quotes" src="{% static 'images/quotes.svg' %}"-->
+                                <!--                                         alt="testimonials for scam detection">-->
+                                <!--                                    <div class="card-body">-->
+                                <!--                                        <p class="testimonial-text">Lorem ipsum dolor sit amet, consectetur ing elit.-->
+                                <!--                                            Nulla id nisl tempus risus facilisis efficr ut tincidunt vitae enim non-->
+                                <!--                                            vehicula. Phases vitae metus in felis gravida ultrices zimbo</p>-->
+                                <!--                                        <div class="details">-->
+                                <!--                                            <img class="testimonial-image" src="{% static 'images/testimonial-4.jpg' %}"-->
+                                <!--                                                 alt="testimonials for scam detection">-->
+                                <!--                                            <div class="text">-->
+                                <!--                                                <div class="testimonial-author">Ronny Drummer</div>-->
+                                <!--                                                <div class="occupation">Designer - Sawdust</div>-->
+                                <!--                                            </div> &lt;!&ndash; end of text &ndash;&gt;-->
+                                <!--                                        </div> &lt;!&ndash; end of testimonial-details &ndash;&gt;-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                            </div> &lt;!&ndash; end of swiper-slide &ndash;&gt;-->
+                                <!-- end of slide -->
+
+                            </div> <!-- end of swiper-wrapper -->
+
+                            <!--                        &lt;!&ndash; Add Arrows &ndash;&gt;-->
+                            <!--                        <div class="swiper-button-next"></div>-->
+                            <!--                        <div class="swiper-button-prev"></div>-->
+                            <!--                        &lt;!&ndash; end of add arrows &ndash;&gt;-->
+
+                        </div> <!-- end of swiper-container -->
+                    </div> <!-- end of slider-container -->
+                    <!-- end of card slider -->
+
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+        </div> <!-- end of container -->
+    </div> <!-- end of slider-1 -->
+    <!-- end of testimonials -->
+
+    <!-- Pricing -->
+    <div id="pricing" class="cards-2" style="padding-top:80px;padding-bottom:80px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="h2-heading"><span>Choose the package</span><br> a plan for everybody</h2>
+                </div> <!-- end of col -->
+            </div> <!-- end of row -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"
+                                     alt="cheap personal scam protection pricing plan $1.99 per scan "><span>No Commitment</span><img
+                                    class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %}"
+                                    alt="cheap personal scam protection pricing plan $1.99 per scan">
+                            </div>
+                            <ul class="list-unstyled li-space-lg">
+                                <li>3 analyses</li>
+                                <li>3 website scan</li>
+                                <li>10 Credits ($0.2 per Analysis)</li>
+                                <li>Comprehensive report</li>
+                            </ul>
+                            <div class="price">$1.99</div>
+                            {% if user.is_authenticated %}
+                            {{one_time_checkout.render}}
+                            {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}" id="pay-one-time" class="btn-outline-reg" style="cursor:pointer">Get Started</a>
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <!-- end of card -->
+
+                    <!-- Card -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="card-title">
+                                <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"
+                                     alt="cheap personal scam protection pricing plan $9.99 per month"><span>Personal</span><img
+                                    class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %} "
+                                    alt="cheap personal scam protection pricing plan $9.99 per month">
+                            </div>
+                            <ul class="list-unstyled li-space-lg">
+                                <li>1000 analyses per month</li>
+                                <li>1000 website scan per month</li>
+                                <li>2000 Credits ($0.005 per Analysis)</li>
+                                <li>Comprehensive report</li>
+                            </ul>
+                            <div class="price">$9.99</div>
+                            {% if user.is_authenticated %}
+                            {{pers_paypal_payment.render}}
+                            {% else %}
+                            <a href="{% url 'login' %}?next={{ request.path }}#pricing" id="personal_monthly" class="btn-outline-reg" style="cursor:pointer">Get Started</a>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- end of card -->
+                    <!--               -->
+                    <!-- Card -->
+                    <!--                <div class="card">-->
+                    <!--                    <div class="card-body">-->
+                    <!--                        <div class="card-title">-->
+                    <!--                            <img class="decoration-lines" src="{% static 'images/decoration-lines.svg' %}"-->
+                    <!--                                 alt="robust business scam protection pricing plan $199.99 per month"><span>Business</span><img-->
+                    <!--                                class="decoration-lines flipped" src="{% static 'images/decoration-lines.svg' %}"-->
+                    <!--                                alt="robust business scam protection pricing plan $199.99 per month">-->
+                    <!--                        </div>-->
+                    <!--                        <ul class="list-unstyled li-space-lg">-->
+                    <!--                            <li>1M analyses per month</li>-->
+                    <!--                            <li>1M website scan per month</li>-->
+                    <!--                            <li>Bulk analyses for Emails and Messages</li>-->
+                    <!--                            <li>50,000 Reverse Image Search per month</li>-->
+                    <!--                            <li>Comprehensive report</li>-->
+                    <!--                            <li>Custom Brand Protection from Impersonation</li>-->
+                    <!--                            <li>API integration</li>-->
+                    <!--                        </ul>-->
+                    <!--                        <div class="price">$199</div>-->
+                    <!--                        <a href="#contact" class="btn-outline-reg">Subscribe</a>-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <!-- end of card -->
+
+                </div> <!-- end of col -->
             </div> <!-- end of col -->
         </div> <!-- end of row -->
     </div> <!-- end of container -->
@@ -471,14 +567,15 @@
 
 
 <!-- Invitation -->
-<div class="basic-2">
+<div class="basic-2" style="padding-top:80px;padding-bottom:80px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="text-container">
                     <h4>Join the Fight Against Scams</h4>
                     <p class="p-large">
-                        Protect yourself and your loved ones from fraud and deception. With IsThisAScam, you’re not just
+                        Protect yourself and your loved ones from fraud and deception. With IsThisAScam, you’re not
+                        just
                         getting a tool—you're gaining peace of mind.</p>
                 </div> <!-- end of text-container -->
             </div> <!-- end of col -->
@@ -489,7 +586,7 @@
 
 
 <!-- Contact -->
-<div id="contact" class="form-1">
+<div id="contact" class="form-1" style="padding-top:80px;padding-bottom:80px">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -497,7 +594,7 @@
                 <ul class="list-unstyled li-space-lg">
                     <!--                    <li><i class="fas fa-map-marker-alt"></i> &nbsp;22 Praesentum, Pharetra Fin, CB 12345, KL</li>-->
                     <!--                    <li><i class="fas fa-phone"></i> &nbsp;<a href="tel:00817202212">+81 720 2212</a></li>-->
-                    <li><i class="fas fa-envelope"></i> &nbsp;<a href="mailto:lorem@ipsum.com">support@roniib.com</a>
+                    <li><i class="fas fa-envelope"></i> &nbsp;<a href="mailto:biihezron1@gmail.com">Email us</a>
                     </li>
                 </ul>
             </div> <!-- end of col -->
@@ -506,18 +603,19 @@
             <div class="col-lg-10 offset-lg-1">
 
                 <!-- Contact Form -->
-                <form>
+                <form id="contact-form">
                     <div class="form-group">
-                        <input type="text" class="form-control-input" placeholder="Name" required>
+                        <input type="text" class="form-control-input" placeholder="Name" required id="name">
                     </div>
                     <div class="form-group">
-                        <input type="email" class="form-control-input" placeholder="Email" required>
+                        <input type="email" class="form-control-input" placeholder="Email" required id="email">
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control-textarea" placeholder="Message" required></textarea>
+                            <textarea class="form-control-textarea" placeholder="Message" required
+                                      id="message"></textarea>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="form-control-submit-button">Submit</button>
+                        <button id="submit_contact" class="form-control-submit-button">Submit</button>
                     </div>
                 </form>
                 <!-- end of contact form -->
@@ -529,50 +627,51 @@
 <!-- end of contact -->
 
 
-<!-- Footer -->
-<div class="footer bg-gray">
-    <img class="decoration-city" src="{% static 'images/decoration-city.svg' %}" alt="join the fight against scam and fraud">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h4>Stay Connected</h4>
-                <div class="social-container">
-                        <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-facebook-f fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-twitter fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-pinterest-p fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-instagram fa-stack-1x"></i>
-                            </a>
-                        </span>
-                    <span class="fa-stack">
-                            <a href="#your-link">
-                                <i class="fas fa-circle fa-stack-2x"></i>
-                                <i class="fab fa-youtube fa-stack-1x"></i>
-                            </a>
-                        </span>
-                </div> <!-- end of social-container -->
-            </div> <!-- end of col -->
-        </div> <!-- end of row -->
-    </div> <!-- end of container -->
-</div> <!-- end of footer -->
-<!-- end of footer -->
+<!--&lt;!&ndash; Footer &ndash;&gt;-->
+<!--<div class="footer bg-gray">-->
+<!--    <img class="decoration-city" src="{% static 'images/decoration-city.svg' %}"-->
+<!--         alt="join the fight against scam and fraud">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12">-->
+<!--                <h4>Stay Connected</h4>-->
+<!--                <div class="social-container">-->
+<!--                        <span class="fa-stack">-->
+<!--                            <a href="#your-link">-->
+<!--                                <i class="fas fa-circle fa-stack-2x"></i>-->
+<!--                                <i class="fab fa-facebook-f fa-stack-1x"></i>-->
+<!--                            </a>-->
+<!--                        </span>-->
+<!--                    <span class="fa-stack">-->
+<!--                            <a href="#your-link">-->
+<!--                                <i class="fas fa-circle fa-stack-2x"></i>-->
+<!--                                <i class="fab fa-twitter fa-stack-1x"></i>-->
+<!--                            </a>-->
+<!--                        </span>-->
+<!--                    <span class="fa-stack">-->
+<!--                            <a href="#your-link">-->
+<!--                                <i class="fas fa-circle fa-stack-2x"></i>-->
+<!--                                <i class="fab fa-pinterest-p fa-stack-1x"></i>-->
+<!--                            </a>-->
+<!--                        </span>-->
+<!--                    <span class="fa-stack">-->
+<!--                            <a href="#your-link">-->
+<!--                                <i class="fas fa-circle fa-stack-2x"></i>-->
+<!--                                <i class="fab fa-instagram fa-stack-1x"></i>-->
+<!--                            </a>-->
+<!--                        </span>-->
+<!--                    <span class="fa-stack">-->
+<!--                            <a href="#your-link">-->
+<!--                                <i class="fas fa-circle fa-stack-2x"></i>-->
+<!--                                <i class="fab fa-youtube fa-stack-1x"></i>-->
+<!--                            </a>-->
+<!--                        </span>-->
+<!--                </div> &lt;!&ndash; end of social-container &ndash;&gt;-->
+<!--            </div> &lt;!&ndash; end of col &ndash;&gt;-->
+<!--        </div> &lt;!&ndash; end of row &ndash;&gt;-->
+<!--    </div> &lt;!&ndash; end of container &ndash;&gt;-->
+<!--</div> &lt;!&ndash; end of footer &ndash;&gt;-->
+<!--&lt;!&ndash; end of footer &ndash;&gt;-->
 
 
 <!-- Copyright -->
@@ -582,14 +681,15 @@
             <div class="col-lg-6">
                 <ul class="list-unstyled li-space-lg p-small">
                     <li><a href="{% url 'terms' %}">Terms & Conditions</a></li>
-                    <li><a href="{% url 'privacy' %">Privacy Policy</a></li>
+                    <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
                 </ul>
             </div> <!-- end of col -->
             <div class="col-lg-3">
                 <p class="p-small statement">Copyright © <a href="#">Roniib</a></p>
             </div> <!-- end of col -->
             <div class="col-lg-3">
-                <p class="p-small statement">Theme By: <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
+                <p class="p-small statement">Theme By: <a href="https://themewagon.com/"
+                                                          target="_blank">ThemeWagon</a>
                 </p>
             </div> <!-- end of col -->
         </div> <!-- enf of row -->
@@ -610,5 +710,90 @@
 <script src="{% static 'js/purecounter.min.js' %}"></script> <!-- Purecounter counter for statistics numbers -->
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script> <!-- Isotope for filter -->
 <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+<script>
+
+</script>
+<script>
+    function validateEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+    $(document).ready(function() {
+        toastr.options = {
+            'closeButton': true,
+            'debug': false,
+            'newestOnTop': false,
+            'progressBar': false,
+            'positionClass': 'toast-top-right',
+            'preventDuplicates': false,
+            'showDuration': '1000',
+            'hideDuration': '1000',
+            'timeOut': '5000',
+            'extendedTimeOut': '1000',
+            'showEasing': 'swing',
+            'hideEasing': 'linear',
+            'showMethod': 'fadeIn',
+            'hideMethod': 'fadeOut',
+        }
+    });
+
+    $(document).ready(function() {
+       $('#submit_contact').click(function(e){
+           e.preventDefault();
+           var name = $('#name').val();
+           var email =  $('#email').val();
+           var message =  $('#message').val();
+
+           if(name==''||email==''||message==''){
+            toastr.error('Please fill all the fields');
+            return;
+           }
+           if (!validateEmail(email)){
+            toastr.error('Invalid email format');
+            return;
+           }
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            $.ajax({
+                url: "{% url 'landing' %}",  // Django URL tag to resolve the view
+                type: "POST",
+                data:{
+                        request_type: 'contact',
+                        name: name,
+                        email: email,
+                        message: message,
+                    },
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response) {
+                    if(!response['result']){
+                        toastr.error(response['message']);
+
+                        return;
+                    }
+                    toastr.success(response['message']);
+                   $('#name').val('');
+                   $('#email').val('');
+                   $('#message').val('');
+
+                    },
+                error: function(xhr, status, error) {
+                    // Handle the error case
+                     toastr.error('Error fetching. Try again');
+
+                }
+            });
+
+       });
+    });
+
+</script>
+<script type="text/javascript">
+    window.DjangoURLs = {
+        landing: "{% url 'landing' %}",
+    };
+</script>
+
 </body>
 </html>

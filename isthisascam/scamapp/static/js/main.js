@@ -1,178 +1,102 @@
-const chatBox =
-    document.getElementById('chat-box');
-const userInput =
-    document.getElementById('user-input');
-const sendButton =
-    document.getElementById('send-button');
-const sidebarToggle =
-    document.getElementById('sidebar-toggle');
-const modeToggle =
-    document.getElementByClass('mode-toggle-checkbox');
-const sidebar =
-    document.querySelector('.sidebar');
+$(document).ready(function() {
+    var homeUrl = window.DjangoURLs.home;
+    var preferences="{{ theme }}"
+    if(preferences =='dark-mode'){
+        $('.mode-toggle-checkbox').each(function() {
+            $(this).prop('checked', true);
+        });
+     }
 
-modeToggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark-mode');
-});
+    $('#request-btn').click(function (){
+        $('#requests-section').css('display','none');
+        $('#request-btn').css('display','none');
+        $('#request-form').css('display','flex');
+        $('#cancel-request-btn').css('display','inline-block');
 
-sendButton.addEventListener('click', sendMessage);
-userInput.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        sendMessage();
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const newConversationBtn =
-            document.getElementById('new-conversation-btn');
-    const conversationContent =
-            document.querySelector('.conversation-content');
-    const sidebarToggle =
-            document.getElementById('sidebar-toggle');
-    const chatContainer =
-            document.querySelector('.chat-container');
-
-    sidebarToggle.addEventListener('click', function () {
-        const sidebar = document.querySelector('.sidebar');
-        sidebar.classList.toggle('collapsed');
-
-        if (sidebar.classList.contains('collapsed')) {
-            chatContainer.style.width = '96%';
-            chatContainer.style.marginLeft = '3%';
-        } else {
-            chatContainer.style.width = 'calc(100% - 300px)';
-            chatContainer.style.marginLeft = '300px';
-        }
     });
-    newConversationBtn.addEventListener('click', function () {
-        conversationContent.textContent = "New Conversation Started!";
+    $('#search-again').click(function (){
+        var text=$('#reverse-instruction');
+        var revContainer=$('#reverse-result');
+        text.css('display','block');
+        revContainer.css('display','none');
+
+    });
+    $('#cancel-request-btn').click(function (){
+        $('#requests-section').css('display','block');
+        $('#request-input-form').trigger("reset");;
+        $('#request-btn').css('display','block');
+        $('#request-form').css('display','none');
+        $('#cancel-request-btn').css('display','none');
+
+    });
+    $('#cancel-report-btn').click(function (){
+        $('#report-input-form').trigger("reset");;
+        $('#report-form').css('display','none');
+        $('#report-placeholder').css('display','block');
+        $('#preview').empty();
+        $('#image-delete-instruction').css('display', 'none');
+    });
+    $('#report-redirect').click(function (){
+        $('#report-form').css('display','flex');
+        $('#report-placeholder').css('display','none');
+
     });
 
-    modeToggleCheckbox.addEventListener('change', function () {
-        chatContainer.classList.toggle('light-mode');
-        chatContainer.classList.toggle('dark-mode');
-        body.classList.toggle('dark-mode');
-        body.classList.toggle('light-mode');
+
+
+    toastr.options = {
+        'closeButton': true,
+        'debug': false,
+        'newestOnTop': false,
+        'progressBar': false,
+        'positionClass': 'toast-top-right',
+        'preventDuplicates': false,
+        'showDuration': '1000',
+        'hideDuration': '1000',
+        'timeOut': '5000',
+        'extendedTimeOut': '1000',
+        'showEasing': 'swing',
+        'hideEasing': 'linear',
+        'showMethod': 'fadeIn',
+        'hideMethod': 'fadeOut',
+    }
+
+    // Define the class you want to toggle
+    var toggleClass = 'dark-mode';
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // Attach a click event handler to the button
+    $('.mode-toggle-checkbox').click(function() {
+        $('body').toggleClass(toggleClass);
+        //update settings in the server
+        $.ajax({
+            url: homeUrl,  // Django URL tag to resolve the view
+            type: "POST",
+            data: {
+                feature: 'settings',
+                theme: 'toggle',
+            },
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            success: function(response) {
+            if(!response['result']){
+                $('#errorLog').text(response['message']);
+                toastr.error('Could not save changes. Try again');
+
+                return;
+            }
+            toastr.success('Changes updated');
+            },
+            error: function(xhr, status, error) {
+                // Handle the error case
+                console.log(error);
+                toastr.error('Could not save changes. Try again');
+
+            }
+        });
+
     });
 });
-
-function sendMessage() {
-    const message = userInput.value.trim();
-    if (message !== '') {
-        appendMessage('user', message);
-        getResponse(message);
-        userInput.value = '';
-    }
-}
-
-function appendMessage(sender, message) {
-    const p = document.createElement('p');
-    p.textContent = `${sender}: ${message}`;
-    chatBox.appendChild(p);
-    chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function getResponse(message) {
-    let response;
-    const greetings =
-        ["Hello!", "Hi there!", "Hey!", "Greetings!"];
-    const affirmatives =
-        ["Yes", "Certainly", "Of course", "Absolutely"];
-    const negatives =
-        ["No", "Sorry, I can't do that", "Unfortunately not", "I'm afraid not"];
-    const thanks =
-        ["You're welcome!", "No problem!", "Glad to help!", "Anytime!"];
-    const commands = {
-        "help": "You can ask me questions or chat about various topics.",
-        "time": getCurrentTime(),
-        "date": getCurrentDate(),
-        "weather": getWeatherInfo(),
-        "joke": getJoke(),
-        "fact": getFact(),
-        "quote": getQuote(),
-
-        // Add more commands here as needed
-    };
-
-    if (message.toLowerCase() in commands) {
-        response = commands[message.toLowerCase()];
-    } else if (message.toLowerCase().includes("thank")) {
-        response = getRandomElement(thanks);
-    } else if (message.toLowerCase().includes("yes")) {
-        response = getRandomElement(affirmatives);
-    } else if (message.toLowerCase().includes("no")) {
-        response = getRandomElement(negatives);
-    } else {
-        response = getRandomElement(greetings);
-    }
-
-    setTimeout(() => appendMessage('ChatGPT', response), 1000);
-}
-
-function getCurrentTime() {
-    const now = new Date();
-    return `Current time is ${now.toLocaleTimeString()}`;
-}
-
-function getCurrentDate() {
-    const now = new Date();
-    return `Today's date is ${now.toDateString()}`;
-}
-
-function getWeatherInfo() {
-
-    // Simulate getting weather information from an API
-    const weatherData = {
-        temperature: getRandomNumber(10, 35),
-        condition: getRandomElement(["Sunny", "Cloudy", "Rainy", "Windy"]),
-    };
-    return `Current weather: ${weatherData.temperature}°C,
-                             ${weatherData.condition}`;
-}
-
-function getJoke() {
-
-    // Simulate getting a random joke
-    const jokes = ["Why don't scientists trust atoms? Because they make up everything!",
-        "Parallel lines have so much in common. It's a shame they'll never meet.",
-        "I told my wife she was drawing her eyebrows too high. She looked surprised.",
-        "Why did the scarecrow win an award? Because he was outstanding in his field!"
-    ];
-    return getRandomElement(jokes);
-}
-
-function getFact() {
-
-    // Simulate getting a random fact
-    const facts = ["Ants stretch when they wake up in the morning.",
-                   "A group of flamingos is called a flamboyance.",
-                   "Honey never spoils.",
-                   "The shortest war in history lasted only 38 minutes.",
-                   "Octopuses have three hearts."
-    ];
-    return getRandomElement(facts);
-}
-
-function getQuote() {
-
-    // Simulate getting a random quote
-    const quotes =
-        ["The only way to do great work is to love what you do. – Steve Jobs",
-        "In the middle of difficulty lies opportunity. – Albert Einstein",
-        "Success is not final, failure is not fatal: It is the courage to continue that counts. – Winston Churchill"
-    ];
-    return getRandomElement(quotes);
-}
-
-function getRandomElement(array) {
-    const randomIndex = Math.floor(Math.random() * array.length);
-    return array[randomIndex];
-}
-
-function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-getResponse('Hello');
-
 
 

@@ -41,6 +41,22 @@
     <!--    <link rel="stylesheet" href="{% static  'css/main.css' %}">-->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+    <!--    GOOGLE ANALYTICS TRACKING-->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-R3C8P55552"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-R3C8P55552');
+    </script>
+
     <style>
         *,
         *:before,
@@ -461,6 +477,7 @@
 <script src="{% static 'js/purecounter.min.js' %}"></script> <!-- Purecounter counter for statistics numbers -->
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script> <!-- Isotope for filter -->
 <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+
 <script type="text/javascript">
     function getCSRFToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -506,6 +523,23 @@ function validatePassword(password) {
     return null;
 }
 $(document).ready(function() {
+        toastr.options = {
+            'closeButton': true,
+            'debug': false,
+            'newestOnTop': false,
+            'progressBar': false,
+            'positionClass': 'toast-top-right',
+            'preventDuplicates': false,
+            'showDuration': '1000',
+            'hideDuration': '1000',
+            'timeOut': '5000',
+            'extendedTimeOut': '1000',
+            'showEasing': 'swing',
+            'hideEasing': 'linear',
+            'showMethod': 'fadeIn',
+            'hideMethod': 'fadeOut',
+        };
+
 
     $('#sign-in-switch').on('click', function() {
         $('#sign-in-form').css('display','block');
@@ -526,6 +560,7 @@ $(document).ready(function() {
             return;
         };
         var type='login';
+        var next='{{next}}';
         // Perform an AJAX POST request
         $.ajax({
             url: "{% url 'login' %}",  // Django URL tag to resolve the view
@@ -534,17 +569,23 @@ $(document).ready(function() {
                 password: password,
                 username: username,
                 type:'login',
+                next:next,
                 csrfmiddlewaretoken: getCSRFToken()  // Include CSRF token
             },
             success: function(response) {
             if(!response['result']){
                 $('#errorLog').text(response['message']);
+                toastr.error(response['message']);
+
                 return;
             }
-            window.location.href='{% url 'home' %}';
+            toastr.success('Login successful');
+
+            window.location.href=response['redirect'];
             },
             error: function(xhr, status, error) {
                 // Handle the error case
+                toastr.error("Error: Try again later");
 
                $('#errorLog').text("Error: Try again later" );
             }
@@ -564,18 +605,24 @@ $(document).ready(function() {
         };
         if(!validateEmail(email)){
             $('#errorSn').text('Email appears to be incorrect');
+            toastr.error('Email appears to be incorrect');
+
             return;
         }
         var vald=validatePassword(password);
         if(vald != null ){
             $('#errorSn').text(vald);
+            toastr.error(vald);
+
             return;
         }
         if(cpassword != password ){
             $('#errorSn').text('Passwords do not match');
+            toastr.error('Passwords do not match');
             return;
         };
 
+        var next='{{next}}';
 
 
         // Perform an AJAX POST request
@@ -588,14 +635,20 @@ $(document).ready(function() {
                 cpassword: cpassword,
                 email: email,
                 type:'signup',
+                next:next,
+
                 csrfmiddlewaretoken: getCSRFToken()  // Include CSRF token
             },
             success: function(response) {
                 if(!response['result']){
                     $('#errorSn').text(response['message']);
+                    toastr.error(response['message']);
+
                     return;
                 }
-                 window.location.href='{% url 'home' %}';
+                toastr.success('Registration successful');
+                window.location.href=response['redirect'];
+
 
             },
             error: function(xhr, status, error) {
@@ -607,9 +660,6 @@ $(document).ready(function() {
 });
 
 </script>
-<!-- Footer -->
-<!-- end of footer -->
-
 
 <!-- Copyright -->
 <div class="copyright bg-gray">

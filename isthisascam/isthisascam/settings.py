@@ -27,7 +27,7 @@ SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.100.54']
+ALLOWED_HOSTS = ['3f5e-105-163-0-39.ngrok-free.app', '192.168.100.54']
 
 # Application definition
 
@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'scamapp',
+    'scamapp.apps.ScamappConfig',
     'django_user_agents',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -125,8 +126,17 @@ if DEBUG:
     # STATICFILES_DIRS = [
     #     os.path.join(BASE_DIR, 'static'),
     # ]
+LOGIN_URL = '/log-in'
 
-# Default primary key field type
+# URL where users are redirected after logging in
+# URL where users are redirected after logging out
+LOGOUT_REDIRECT_URL = ''  # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# paypal_settings.py
+
+
+# PAYPAL_RECEIVER_EMAIL = 'bii.hezron@students.jkuat.ac.ke'
+PAYPAL_RECEIVER_EMAIL = 'sb-jxjeu32695346@business.example.com'
+PAYPAL_TEST = True  # Set to False for live transactions
