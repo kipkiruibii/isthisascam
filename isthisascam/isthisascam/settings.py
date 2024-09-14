@@ -16,7 +16,7 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-with open('../config.json') as file:
+with open('/etc/config.json') as file:
     config = json.load(file)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -27,7 +27,7 @@ SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3f5e-105-163-0-39.ngrok-free.app', '192.168.100.54']
+ALLOWED_HOSTS = ['192.168.100.54']
 
 # Application definition
 
@@ -137,6 +137,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # paypal_settings.py
 
 
-# PAYPAL_RECEIVER_EMAIL = 'bii.hezron@students.jkuat.ac.ke'
-PAYPAL_RECEIVER_EMAIL = 'sb-jxjeu32695346@business.example.com'
+PAYPAL_RECEIVER_EMAIL = config.get('PAYPAL_RECEIVER_EMAIL')
 PAYPAL_TEST = True  # Set to False for live transactions

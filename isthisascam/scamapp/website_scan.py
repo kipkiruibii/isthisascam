@@ -14,6 +14,9 @@ from huggingface_hub import InferenceClient
 import os
 import requests
 from .models import *
+# from .utils import scan_file
+with open('/etc/config.json') as file:
+    config = json.load(file)
 
 
 def is_url_shortened(url):
@@ -35,7 +38,7 @@ def getAIResponse(system, prompt):
     #
     #     client = OpenAI(
     #         base_url="https://f3smmrjpunu5y79e.us-east-1.aws.endpoints.huggingface.cloud/v1/",
-    #         api_key="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"
+    #         api_key=config.get('HUGGINGFACE_KEY')
     #     )
     #
     #     chat_completion = client.chat.completions.create(
@@ -60,7 +63,7 @@ def getAIResponse(system, prompt):
     #     # API_URL = "https://f3smmrjpunu5y79e.us-east-1.aws.endpoints.huggingface.cloud"
     #     # headers = {
     #     #     "Accept": "application/json",
-    #     #     "Authorization": "Bearer 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",
+    #     #     "Authorization": "Bearer config.get('HUGGINGFACE_KEY'),
     #     #     "Content-Type": "application/json"
     #     # }
     #     #
@@ -83,7 +86,7 @@ def getAIResponse(system, prompt):
             # "meta-llama/Meta-Llama-3-8B-Instruct",
             "mistralai/Mistral-7B-Instruct-v0.3",
             # token=config.get('HUGGINGFACE_API_KEY')[0],
-            token='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',
+            token= config.get('HUGGINGFACE_KEY'),
         )
         full_response = ""
 
