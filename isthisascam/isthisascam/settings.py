@@ -126,18 +126,39 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
+if not DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        }, "staticfiles": {
+            "BACKEND": "storages.backends.s3.S3Storage",
+        },
 
+    }
+
+AWS_ACCESS_KEY_ID = config.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_SIGNATURE_NAME = 's3v4',
+AWS_S3_REGION_NAME = 'us-west-1'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+AWS_QUERYSTRING_AUTH = False
+
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
 if DEBUG:
     STATIC_URL = '/static/'
 
     # The filesystem path to the directory you want Django to store all static files.
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-    # # Additional locations of static files that are not part of any app’s static files directories.
-    # STATICFILES_DIRS = [
-    #     os.path.join(BASE_DIR, 'static'),
-    # ]
+    # Additional locations of static files that are not part of any app’s static files directories.
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 LOGIN_URL = '/log-in'
 
 # URL where users are redirected after logging in
