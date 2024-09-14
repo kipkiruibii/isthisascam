@@ -522,87 +522,87 @@
             <div id="website-scan-loader" style="display:none"><span class="loader"></span></div>
             <div id="website-scan-result"
                  style="overflow-y:scroll;margin-top:20px;display:none">
-                <div class="overview"
-                     style="display:flex;width:100%;padding-top:15px;padding-bottom:15px">
-                    <h6>Analysis results for:</h6>
-                    <p style="margin-left:10px">{{ domainInfo.domain_name.0 }}, {{ domainInfo.domain_name.1 }}</p>
-                </div>
-                <div class="overview">
-                    <h6 style="margin-right:10px">Risk Score:</h6>
-                    {% if overallRisk == 'Safe' %}
-                    <p style="color:#3bed4a">Safe</p>
-                    {% elif overallRisk == 'Moderate' %}
-                    <p style="color:#fa8b23">Moderate</p>
-                    {% else %}
-                    <p style="color:#fa2723">Dangerous</p>
-                    {% endif %}
+<!--                <div class="overview"-->
+<!--                     style="display:flex;width:100%;padding-top:15px;padding-bottom:15px">-->
+<!--                    <h6>Analysis results for:</h6>-->
+<!--                    <p style="margin-left:10px">{{ domainInfo.domain_name.0 }}, {{ domainInfo.domain_name.1 }}</p>-->
+<!--                </div>-->
+<!--                <div class="overview">-->
+<!--                    <h6 style="margin-right:10px">Risk Score:</h6>-->
+<!--                    {% if overallRisk == 'Safe' %}-->
+<!--                    <p style="color:#3bed4a">Safe</p>-->
+<!--                    {% elif overallRisk == 'Moderate' %}-->
+<!--                    <p style="color:#fa8b23">Moderate</p>-->
+<!--                    {% else %}-->
+<!--                    <p style="color:#fa2723">Dangerous</p>-->
+<!--                    {% endif %}-->
 
-                </div>
-                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1)">
-                    <div class="domain-information"
-                         style="font-size:15px;padding:20px;width:100%;box-sizing: border-box;">
-                        <h6 style="background:rgba(0,0,0,0)">1. Domain Information:</h6>
-                        <ul>
-                            <li><p><strong>Registrar: </strong><span
-                                    class="res-cont-dec">{{ domainInfo.registrar }}</span>
-                            </p>
-                            </li>
-                            <li><p><strong>Domain name: </strong><span
-                                    class="res-cont-dec">{{ domainInfo.domain_name.0 }}</span>
-                            </p></li>
-                            <li><p><strong>Date created: </strong><span
-                                    class="res-cont-dec"> {{ domainInfo.creation_date}}</span>
-                            </p></li>
-                            <li><p><strong>Expiration date: </strong><span class="res-cont-dec">{{ domainInfo.expiration_date }}</span>
-                            </p></li>
-                            <li><p><strong>Organization: </strong><span class="res-cont-dec">{{ domainInfo.org }}</span>
-                            </p></li>
-                            <li><p><strong>Address: </strong><span class="res-cont-dec">{{ domainInfo.state }}, {{ domainInfo.country }}</span>
-                            </p></li>
-                        </ul>
-                    </div>
-
-<!--                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">-->
-<!--                        <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>-->
-<!--                        <p id="domain-summary-raw" style="display:none">{{domainInfo.summary}}</p>-->
-<!--                        <p id="domain-summary-formatted" style="display:block"></p>-->
+<!--                </div>-->
+<!--                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1)">-->
+<!--                    <div class="domain-information"-->
+<!--                         style="font-size:15px;padding:20px;width:100%;box-sizing: border-box;">-->
+<!--                        <h6 style="background:rgba(0,0,0,0)">1. Domain Information:</h6>-->
+<!--                        <ul>-->
+<!--                            <li><p><strong>Registrar: </strong><span-->
+<!--                                    class="res-cont-dec">{{ domainInfo.registrar }}</span>-->
+<!--                            </p>-->
+<!--                            </li>-->
+<!--                            <li><p><strong>Domain name: </strong><span-->
+<!--                                    class="res-cont-dec">{{ domainInfo.domain_name.0 }}</span>-->
+<!--                            </p></li>-->
+<!--                            <li><p><strong>Date created: </strong><span-->
+<!--                                    class="res-cont-dec"> {{ domainInfo.creation_date}}</span>-->
+<!--                            </p></li>-->
+<!--                            <li><p><strong>Expiration date: </strong><span class="res-cont-dec">{{ domainInfo.expiration_date }}</span>-->
+<!--                            </p></li>-->
+<!--                            <li><p><strong>Organization: </strong><span class="res-cont-dec">{{ domainInfo.org }}</span>-->
+<!--                            </p></li>-->
+<!--                            <li><p><strong>Address: </strong><span class="res-cont-dec">{{ domainInfo.state }}, {{ domainInfo.country }}</span>-->
+<!--                            </p></li>-->
+<!--                        </ul>-->
 <!--                    </div>-->
 
-                </div>
-                <hr style="color:grey">
-                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1)">
-                    <div class="ssl-information" style="font-size:15px;padding:20px;box-sizing: border-box">
-                        <h6 style="background:rgba(0,0,0,0)">2. SSL Certificate:</h6>
-                        {% if sslInfo.success %}
-                        <ul>
-                            <li><p><strong>Domain in Certificate: </strong><span class="res-cont-dec">{{ sslInfo.domain_in_cert }}</span>
-                            </p></li>
-                            <li><p><strong>Validity: </strong>
-                                {% if sslInfo.sslStatus == 'Valid' %}
-                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>
-                                {% else %}
-                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>
-                                {% endif %}</p></li>
-                            <li><p><strong>Expiry: </strong><span class="res-cont-dec">{{ sslInfo.expiry }}</span></p>
-                            </li>
-                            <li><p><strong>Issuer: </strong><span class="res-cont-dec">{{ sslInfo.cert_issuer }}</span>
-                            </p>
-                            </li>
-                        </ul>
-                        {% else %}
-                        <p style="color:#fa2723">This website does not have SSL certificate</p>
-                        {% endif %}
-                    </div>
+<!--&lt;!&ndash;                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p id="domain-summary-raw" style="display:none">{{domainInfo.summary}}</p>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <p id="domain-summary-formatted" style="display:block"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
 
-                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
-                        <h6 style="background:rgba(0,0,0,0);padding-top:25px;font-size:14px;">Summary:</h6>
-                        <p id="ssl-summary-raw" style="display:none">{{sslInfo.summary}}</p>
-                        <p id="ssl-summary-formatted" style="display:block"></p>
+<!--                </div>-->
+<!--                <hr style="color:grey">-->
+<!--                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1)">-->
+<!--                    <div class="ssl-information" style="font-size:15px;padding:20px;box-sizing: border-box">-->
+<!--                        <h6 style="background:rgba(0,0,0,0)">2. SSL Certificate:</h6>-->
+<!--                        {% if sslInfo.success %}-->
+<!--                        <ul>-->
+<!--                            <li><p><strong>Domain in Certificate: </strong><span class="res-cont-dec">{{ sslInfo.domain_in_cert }}</span>-->
+<!--                            </p></li>-->
+<!--                            <li><p><strong>Validity: </strong>-->
+<!--                                {% if sslInfo.sslStatus == 'Valid' %}-->
+<!--                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>-->
+<!--                                {% else %}-->
+<!--                                <span class="res-cont-dec">{{ sslInfo.sslStatus }}</span>-->
+<!--                                {% endif %}</p></li>-->
+<!--                            <li><p><strong>Expiry: </strong><span class="res-cont-dec">{{ sslInfo.expiry }}</span></p>-->
+<!--                            </li>-->
+<!--                            <li><p><strong>Issuer: </strong><span class="res-cont-dec">{{ sslInfo.cert_issuer }}</span>-->
+<!--                            </p>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                        {% else %}-->
+<!--                        <p style="color:#fa2723">This website does not have SSL certificate</p>-->
+<!--                        {% endif %}-->
+<!--                    </div>-->
 
-                    </div>
+<!--                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">-->
+<!--                        <h6 style="background:rgba(0,0,0,0);padding-top:25px;font-size:14px;">Summary:</h6>-->
+<!--                        <p id="ssl-summary-raw" style="display:none">{{sslInfo.summary}}</p>-->
+<!--                        <p id="ssl-summary-formatted" style="display:block"></p>-->
 
-                </div>
-                <hr style="color:grey">
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                <hr style="color:grey">-->
 
                 <!--            <div class="overview" style="display:flex;justify-content:space-between;">-->
                 <!--                <div class="domain-information" style="font-size:15px;margin:20px;width:70%">-->
@@ -789,6 +789,47 @@
                 </div>
             </div>
             <div id="vcontact-results" style="display:none">
+                <div class=""
+                     style="width:100%;align-items:center;margin-top:10px;text-align:center;overflow-y:scroll;height:80%;margin-bottom:20px">
+                    <div class="section-fun-fact">
+                        <h4>{{ title }} </h4>
+                        <p>{{ findings }}</p>
+                    </div>
+                    <div style="text-align:start">
+                        <h6>Official Contacts</h6>
+                        <ul>
+                            {% for r in all_official_contacts %}
+                            <li><strong><p>{{ r.title }}</p></strong>
+                                <ul>
+                                    {% for k in r.values %}
+                                    <li><p>{{ k }}</p></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+
+                        </ul>
+                        {% if not is_contact %}
+                        <h6>Stay Alert! Common Scams </h6>
+                        <ul>
+                            {% for r in common_scams_against_such_companies %}
+                            <li><strong><p>{{ r.scam_name }}</p></strong>
+                                <p>{{ r.scam_description }}</p>
+                                <p>Tips </p>
+                                <ul>
+                                    {% for k in r.mitigation %}
+                                    <li><p>{{ k }}</p></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endfor %}
+
+
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                </div>
                 <div style="width:90%;display:flex;justify-content:center;margin-top:10px;margin-bottom:20px;position:fixed">
                     <div class="new-conversation-btn" id="new-verify"
                          style="width:200px;background-color:#3a3b3b;display:block">Verify Again
