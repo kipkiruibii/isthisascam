@@ -25,9 +25,9 @@ with open('/etc/config.json') as file:
 SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['192.168.100.54']
+ALLOWED_HOSTS = ['3.15.224.229']
 
 # Application definition
 
