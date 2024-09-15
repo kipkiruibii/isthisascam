@@ -70,14 +70,25 @@ $(document).ready(function() {
                     const rawDomainSummary = $('#domain-summary-raw').text();
                     const formattedDomainSummary = formatSummary(rawDomainSummary);
                     $('#domain-summary-formatted').html(formattedDomainSummary);
+                    $('#domain-summary-formatted-more').html(formattedDomainSummary);
+                    var fs_less=formattedDomainSummary.slice(0, 100) + " ... Read More";
+                    $('#domain-summary-formatted-less').html(fs_less);
 
                     const rawSSLSummary = $('#ssl-summary-raw').text();
                     const formattedSSLSummary = formatSummary(rawSSLSummary);
+                    $('#ssl-summary-formatted-more').html(formattedSSLSummary);
                     $('#ssl-summary-formatted').html(formattedSSLSummary);
+                    var fs_less=formattedSSLSummary.slice(0, 100) + " ... Read More";
+
+                    $('#ssl-summary-formatted-less').html(fs_less);
 
                     const rawRedirectSummary = $('#redirections-summary-raw').text();
                     const formattedRedirectSummary = formatSummary(rawRedirectSummary);
+                    $('#redirections-summary-formatted-more').html(formattedRedirectSummary);
                     $('#redirections-summary-formatted').html(formattedRedirectSummary);
+                    var fs_less=formattedRedirectSummary.slice(0, 100) + " ... Read More";
+
+                    $('#redirections-summary-formatted-less').html(fs_less);
 
                     const rawOverallSummary = $('#overall-summary-raw').text();
                     const formattedOverallSummary = formatSummary(rawOverallSummary);

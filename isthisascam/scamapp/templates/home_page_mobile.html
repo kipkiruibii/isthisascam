@@ -318,7 +318,7 @@
         </div>
     </div>
 </div>
-<div class="chat-container " style="width:100%;margin:00px">
+<div class="chat-container " style="width:100%;margin:0">
     <div class="chat-container light-mode" id="" style="z-index:3;padding:10px;width:100%;margin:0">
         <p hidden id="scam_indx"></p>
         <div class=""
@@ -466,7 +466,7 @@
             </div>
         </div>
         <div class="chat-content item-mob" id="scan-website"
-             style="display:none;margin-top:20%;height:100%;width:90%;height:85%;margin-bottom:30px;overflow-y:scroll">
+             style="display:none;margin-top:20%;height:100%;width:90%;height:90%;overflow-y:scroll">
             <div class="search-container-mob"
                  style="display:flex;justify-content:space-between;margin-top:15px;margin-bottom:15px;width:100%;box-sizing: border-box;">
                 <input type="text" id="scan-input" style="background:rgba(0,0,0,0.0);width:100%;padding:0"
@@ -521,7 +521,7 @@
             </div>
             <div id="website-scan-loader" style="display:none"><span class="loader"></span></div>
             <div id="website-scan-result"
-                 style="overflow-y:scroll;margin-top:20px;display:none">
+                 style="margin-top:20px;display:none;">
                 <div class="overview"
                      style="width:100%;padding-top:15px;padding-bottom:15px">
                     <h6>Analysis results for:</h6>
@@ -538,35 +538,43 @@
                     {% endif %}
 
                 </div>
-                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1)">
+                <div class="overview" style="width:100%;background:rgba(0,0,0,0.1);align-items:center)">
                     <div class="domain-information"
                          style="font-size:15px;padding:20px;width:100%;box-sizing: border-box;">
                         <h6 style="background:rgba(0,0,0,0)">1. Domain Information:</h6>
                         <ul>
-                            <li><p><strong>Registrar: </strong><span
-                                    class="res-cont-dec">{{ domainInfo.registrar }}</span>
-                            </p>
+                            <li><p><strong>Registrar: </strong>
+                                <p
+                                        class="res-cont-dec"> {{ domainInfo.registrar }}</p>
+                                </p>
                             </li>
-                            <li><p><strong>Domain name: </strong><span
-                                    class="res-cont-dec">{{ domainInfo.domain_name.0 }}</span>
-                            </p></li>
-                            <li><p><strong>Date created: </strong><span
-                                    class="res-cont-dec"> {{ domainInfo.creation_date}}</span>
-                            </p></li>
-                            <li><p><strong>Expiration date: </strong><span class="res-cont-dec">{{ domainInfo.expiration_date }}</span>
-                            </p></li>
-                            <li><p><strong>Organization: </strong><span class="res-cont-dec">{{ domainInfo.org }}</span>
-                            </p></li>
-                            <li><p><strong>Address: </strong><span class="res-cont-dec">{{ domainInfo.state }}, {{ domainInfo.country }}</span>
-                            </p></li>
+                            <li><p><strong>Domain name: </strong>
+                                <p
+                                        class="res-cont-dec"> {{ domainInfo.domain_name.0 }}</p>
+                                </p></li>
+                            <li><p><strong>Date created: </strong>
+                                <p
+                                        class="res-cont-dec"> {{ domainInfo.creation_date}}</p>
+                                </p></li>
+                            <li><p><strong>Expiration date: </strong>
+                                <p class="res-cont-dec"> {{ domainInfo.expiration_date }}</p>
+                                </p></li>
+                            <li><p><strong>Organization: </strong>
+                                <p class="res-cont-dec"> {{ domainInfo.org }}</p>
+                                </p></li>
+                            <li><p><strong>Address: </strong>
+                                <p class="res-cont-dec">{{ domainInfo.state }}, {{ domainInfo.country }}</p>
+                                </p></li>
                         </ul>
                     </div>
-
-<!--                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">-->
-<!--                        <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>-->
-<!--                        <p id="domain-summary-raw" style="display:none">{{domainInfo.summary}}</p>-->
-<!--                        <p id="domain-summary-formatted" style="display:block"></p>-->
-<!--                    </div>-->
+                    <div class="domain-info-explanation" style="font-size:14px;width:90%;padding:10px">
+                        <h6 style="font-size:14px;background:rgba(0,0,0,0);">Summary:</h6>
+                        <p id="domain-summary-raw" style="display:none;font-size:14px"> {{domainInfo.summary}}</p>
+                        <div class="cnt" onclick="toggleMore(this);">
+                            <p id="domain-summary-formatted-less" class="desc" style="display:block;font-size:14px"></p>
+                            <p id="domain-summary-formatted-more" class="desc" style="display:none;font-size:14px"></p>
+                        </div>
+                    </div>
 
                 </div>
                 <hr style="color:grey">
@@ -594,10 +602,13 @@
                         {% endif %}
                     </div>
 
-                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
+                    <div class="domain-info-explanation" style="font-size:15px;width:90%;padding:10px">
                         <h6 style="background:rgba(0,0,0,0);padding-top:25px;font-size:14px;">Summary:</h6>
                         <p id="ssl-summary-raw" style="display:none">{{sslInfo.summary}}</p>
-                        <p id="ssl-summary-formatted" style="display:block"></p>
+                        <div class="cnt" onclick="toggleMore(this);">
+                            <p id="ssl-summary-formatted-less" class="desc" style="display:block;font-size:14px"></p>
+                            <p id="ssl-summary-formatted-more" class="desc" style="display:none;font-size:14px"></p>
+                        </div>
 
                     </div>
 
@@ -652,21 +663,26 @@
                         </ul>
                     </div>
 
-                    <div class="domain-info-explanation" style="font-size:15px;width:70%;">
+                    <div class="domain-info-explanation" style="font-size:15px;width:90%;padding:10px">
                         <h6 style="font-size:14px;background:rgba(0,0,0,0);padding-top:25px">Summary:</h6>
                         <p id="redirections-summary-raw" style="display:none">{{redirectionInfo.summary}}</p>
-                        <p id="redirections-summary-formatted" style="display:block"></p>
+                        <div class="cnt" onclick="toggleMore(this);">
+                            <p id="redirections-summary-formatted-less" class="desc"
+                               style="display:block;font-size:14px"></p>
+                            <p id="redirections-summary-formatted-more" class="desc"
+                               style="display:none;font-size:14px"></p>
+                        </div>
                     </div>
 
                 </div>
                 <hr style="color:grey">
-<!--                <div class="overview" style="background:rgba(0,0,0,0.1">-->
-<!--                    <h6 style="background:rgba(0,0,0,0);padding-top:25px;width:30%;padding-left:20px">Final Summary &-->
-<!--                        Recommendations:</h6>-->
-<!--                    <p id="overall-summary-raw" style="display:none">{{recommendation}}</p>-->
-<!--                    <p id="overall-summary-formatted" style="display:block;width:70%"></p>-->
+                <div class="overview" style="background:rgba(0,0,0,0.1">
+                    <h6 style="background:rgba(0,0,0,0);padding-top:25px;width:90%;padding:10px">Final Summary &
+                        Recommendations:</h6>
+                    <p id="overall-summary-raw" style="display:none">{{recommendation}}</p>
+                    <p id="overall-summary-formatted" style="display:block;width:90%;padding:10px"></p>
 
-<!--                </div>-->
+                </div>
                 <hr style="color:grey">
 
             </div>
@@ -766,13 +782,13 @@
                           enctype="multipart/form-data">
                         <div class="form-group">
                             <input type="text" class="form-control-input"
-                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   style="border-radius:15px;width:90%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
                                    id="contact-title"
                                    placeholder="Paste the contact (Phone number/email address)" required>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control-input" id="company-name"
-                                   style="border-radius:15px;width:100%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
+                                   style="border-radius:15px;width:90%;box-sizing: border-box;background:rgba(0,0,0,0.1)"
                                    placeholder="Who are they claiming to be? Enter company name" required>
 
                             <p style="font-size:12px">If the company is local only to
@@ -1150,6 +1166,9 @@ $(document).ready(function() {
 
 
     $(document).ready(function() {
+
+
+
         var homeUrl = window.DjangoURLs.home;
         $('#submit-report-form').click(function(){
         $('#error-mess-report').css('display','none');
@@ -1393,6 +1412,50 @@ $(document).ready(function() {
 
 
 </script>
+<script>
+    const maxChars = 200;  // Set character limit
+
+    function toggleReadMore(id) {
+        alert(id);
+        const originalContent = document.getElementById(id).textContent;
+        alert(original);
+        const contentElement = document.getElementById('content');
+        const btnText = document.querySelector('.read-more-btn');
+
+        if (contentElement.textContent.length > maxChars && btnText.textContent === "Read More") {
+            // Show full content
+            contentElement.textContent = originalContent;
+            btnText.textContent = "Read Less";
+        } else {
+            // Slice to 200 characters
+            contentElement.textContent = originalContent.slice(0, maxChars) + "...";
+            btnText.textContent = "Read More";
+        }
+    }
+
+    // Initial slice to show only 200 characters
+    document.getElementById('content').textContent = originalContent.slice(0, maxChars) + "...";
+</script>
+<script>
+        function toggleMore(thiss){
+        var childElems=$(thiss).find('.desc');
+
+            childElems.each(function(){
+                let item=$(this);
+
+                if(item.css('display')==='block'){
+                    item.css('display','none');
+
+                }else{
+                    item.css('display','block');
+                }
+
+            });
+        }
+
+
+</script>
+
 
 </body>
 

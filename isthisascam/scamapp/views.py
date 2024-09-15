@@ -25,8 +25,13 @@ import uuid
 from django.urls import reverse
 
 # from .utils import scan_file
-with open('/etc/config.json') as file:
-    config = json.load(file)
+
+if settings.ISLOCAL:
+    with open('../config.json') as file:
+        config = json.load(file)
+else:
+    with open('/etc/config.json') as file:
+        config = json.load(file)
 
 
 def extract_text_from_image(image_path):
@@ -56,6 +61,10 @@ def homePage(request):
     User interacts with LLM over interactive chat.\n
     Protected through login(login required)
     '''
+    rendered_html = 'home_page_mobile.html'
+
+    if request.user_agent.is_pc:
+        rendered_html = 'home_page.html'
     if request.method == 'POST':
         feature = request.POST.get('feature', None)
         if feature == 'settings':
@@ -113,7 +122,8 @@ def homePage(request):
                                                                  overall_risk=overallRisk)
 
                     }
-                    rendered_template = render_to_string('home_page.html', respnse)
+
+                    rendered_template = render_to_string(rendered_html, respnse)
                     # print(domain_info)
                     # print(ssl_cert)
                     # print(redirections)
@@ -185,7 +195,7 @@ def homePage(request):
                         'what_to_do_if_fallen_victim': f_val['what_to_do_if_fallen_victim'],
                         'what_to_watch_out_for': f_val['what_to_watch_out_for'],
                     }
-                    rendered_template = render_to_string('home_page.html', respnse)
+                    rendered_template = render_to_string(rendered_html, respnse)
                     u.request_remaining -= 1
                     u.save()
 
@@ -213,7 +223,7 @@ def homePage(request):
                     'request': u.request_remaining,
                     'follow_up': f_val['follow_up_questions'],
                 }
-                rendered_template = render_to_string('home_page.html', respnse)
+                rendered_template = render_to_string(rendered_html, respnse)
                 u.request_remaining -= 1
                 u.save()
                 return JsonResponse({
@@ -294,7 +304,7 @@ def homePage(request):
                     }
                     print(respnse)
 
-                    rendered_template = render_to_string('home_page.html', respnse)
+                    rendered_template = render_to_string(rendered_html, respnse)
                     u.request_remaining -= 1
                     u.save()
                     return JsonResponse({
@@ -392,7 +402,7 @@ def homePage(request):
             context = {
                 'freqs': RequestFeature.objects.all().order_by('-upvotes')
             }
-            rendered_template = render_to_string('home_page.html', context)
+            rendered_template = render_to_string(rendered_html, context)
 
             return JsonResponse({
                 'result': 'success',

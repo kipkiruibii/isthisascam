@@ -15,9 +15,13 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-with open('/etc/config.json') as file:
-    config = json.load(file)
+ISLOCAL = False
+if ISLOCAL:
+    with open('../config.json') as file:
+        config = json.load(file)
+else:
+    with open('/etc/config.json') as file:
+        config = json.load(file)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -27,7 +31,7 @@ SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['3.15.224.229']
+ALLOWED_HOSTS = ['3.15.224.229', '127.0.0.1', '192.168.100.54']
 
 # Application definition
 
