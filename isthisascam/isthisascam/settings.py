@@ -153,16 +153,16 @@ AWS_QUERYSTRING_AUTH = False
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
-if DEBUG:
-    STATIC_URL = '/static/'
+# if DEBUG:
+STATIC_URL = '/static/'
 
-    # The filesystem path to the directory you want Django to store all static files.
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# The filesystem path to the directory you want Django to store all static files.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-    # Additional locations of static files that are not part of any app’s static files directories.
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
-    ]
+# Additional locations of static files that are not part of any app’s static files directories.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 LOGIN_URL = '/log-in'
 
 # URL where users are redirected after logging in
