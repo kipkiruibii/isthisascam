@@ -29,12 +29,15 @@ else:
 SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['3.135.189.181', '127.0.0.1', 'isthisascam.online','www.isthisascam.online']
+ALLOWED_HOSTS = ['3.135.189.181', '127.0.0.1', 'isthisascam.online', 'www.isthisascam.online']
 
 # Application definition
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://www.isthisascam.online',
+    'https://isthisascam.online',
+]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
