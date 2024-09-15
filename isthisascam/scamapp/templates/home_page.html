@@ -793,7 +793,7 @@
             </div>
             <div id="vcontact-results" style="display:none">
                 <div class=""
-                     style="width:70%;align-items:center;margin-left:10%;margin-right:20%;margin-top:10px;text-align:center;overflow-y:scroll;height:60%;margin-bottom:20px">
+                     style="width:80%;align-items:center;margin-left:10%;margin-right:20%;margin-top:10px;text-align:center;overflow-y:scroll;height:60%;margin-bottom:20px">
                     <div class="section-fun-fact">
                         <h4>{{ title }} </h4>
                         <p>{{ findings }}</p>
@@ -834,7 +834,7 @@
 
                 </div>
                 <div style="width:90%;display:flex;justify-content:center;margin-top:10px;margin-bottom:20px">
-                    <div class="new-conversation-btn" id="new-verify"
+                    <div class="new-conversation-btn" id="new-verify" onclick="newVerify();"
                          style="width:200px;background-color:#3a3b3b;display:block">Verify Again
                     </div>
                 </div>
@@ -1427,7 +1427,13 @@ function create_zip(Images) {
 }
 
 
+function newVerify(){
+    var vc_res=document.querySelector('#vcontact-results');
+    var vc_inst=document.querySelector('#vcontact-instruction');
+    vc_res.style.display='none';
+    vc_inst.style.display='block';
 
+    }
 </script>
 </body>
 

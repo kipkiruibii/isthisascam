@@ -15,8 +15,10 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-ISLOCAL = False
+ISLOCAL = True
+DEBUG = False
 if ISLOCAL:
+    DEBUG = True
     with open('../config.json') as file:
         config = json.load(file)
 else:
@@ -29,9 +31,9 @@ else:
 SECRET_KEY = config.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
-ALLOWED_HOSTS = ['3.135.189.181', '127.0.0.1', 'isthisascam.online', 'www.isthisascam.online']
+
+ALLOWED_HOSTS = ['3.135.189.181', '127.0.0.1', 'isthisascam.online', 'www.isthisascam.online','192.168.100.54']
 
 # Application definition
 CSRF_TRUSTED_ORIGINS = [
@@ -178,4 +180,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 PAYPAL_RECEIVER_EMAIL = config.get('PAYPAL_RECEIVER_EMAIL')
-PAYPAL_TEST = True  # Set to False for live transactions
+PAYPAL_TEST = False  # Set to False for live transactions

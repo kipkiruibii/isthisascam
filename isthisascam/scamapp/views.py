@@ -76,14 +76,12 @@ def homePage(request):
                 else:
                     u.dark_mode = True
                 u.save()
-                print('changes updated')
                 return JsonResponse({
                     'result': 'success',
                 })
 
         if feature == 'website-scan':
             url = request.POST.get('website-link', None)
-            print('url', url)
             us = request.user
             u = UserDetails.objects.filter(user=us).first()
             if u.request_remaining == 0:
@@ -94,7 +92,6 @@ def homePage(request):
             if url:
                 try:
                     domain_info = get_domain_info(url)
-                    # print(domain_info)
                     if domain_info['domain_name'] is None:
                         raise Exception
                     ssl_cert = check_ssl_cert(url)
@@ -124,9 +121,6 @@ def homePage(request):
                     }
 
                     rendered_template = render_to_string(rendered_html, respnse)
-                    # print(domain_info)
-                    # print(ssl_cert)
-                    # print(redirections)
                     # Return the rendered template as part of the JSON response
                     u.request_remaining -= 1
                     u.save()
@@ -163,7 +157,6 @@ def homePage(request):
                 }, status=status.HTTP_202_ACCEPTED)
 
             has_screenshot = True if files else False
-            print(has_screenshot)
             content = []
             for f in files:
                 text = extract_text_from_image(f)
@@ -179,7 +172,6 @@ def homePage(request):
                 vl = analyseConversation(stage=2, prev_prompt=sc.first_prompt, model_res=sc.first_response,
                                          users_res=sc.follow_up_res)
                 # vl = json.dumps(vl)
-                print(vl)
 
                 f_val = json.loads(vl)
                 try:
@@ -212,7 +204,6 @@ def homePage(request):
                     }, status=status.HTTP_202_ACCEPTED)
 
             idf, vl = analyseConversation(stage=1, sc_content=content, description=description)
-            print(vl)
             # vl = json.dumps(vl)
             f_val = json.loads(vl)
             try:
@@ -302,7 +293,6 @@ def homePage(request):
                         'all_official_contacts': f_val['all_official_contacts'],
                         'common_scams_against_such_companies': f_val['common_scams_against_such_companies'],
                     }
-                    print(respnse)
 
                     rendered_template = render_to_string(rendered_html, respnse)
                     u.request_remaining -= 1
@@ -413,7 +403,6 @@ def homePage(request):
             'result': 'failed'
         }, status=status.HTTP_202_ACCEPTED)
     usr = request.user
-    print(request.user)
     dmode = UserDetails.objects.filter(user=usr).first()
     context = {
         'theme': 'dark-mode' if dmode.dark_mode else "",
@@ -500,8 +489,6 @@ def landingPage(request):
         'return_url': f"http://{host}{reverse('payment-success')}",
         'cancel_url': f"http://{host}{reverse('payment-failed', )}",
     }
-    print('URL')
-    print(request.build_absolute_uri(reverse('paypal_notification')))
     personal_paypal_checkout = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'a3': '9.99',  # Recurring price
@@ -532,7 +519,6 @@ def landingPage(request):
 def paypal_notification(request):
     if request.method == "POST":
         data = request.POST
-        print(data)
         try:
             payment_status = data.get('payment_status', '')
             currency = data.get('mc_currency', '')

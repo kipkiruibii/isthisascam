@@ -498,9 +498,13 @@
                             </ul>
                             <div class="price">$1.99</div>
                             {% if user.is_authenticated %}
-                            {{one_time_checkout.render}}
+                            <div style="border:solid 1px grey;border-radius:15px">
+                                {{one_time_checkout.render}}
+
+                            </div>
                             {% else %}
-                            <a href="{% url 'login' %}?next={{ request.path }}" id="pay-one-time" class="btn-outline-reg" style="cursor:pointer">Get Started</a>
+                            <a href="{% url 'login' %}?next={{ request.path }}" id="pay-one-time"
+                               class="btn-outline-reg" style="cursor:pointer">Get Started</a>
 
                             {% endif %}
 
@@ -525,9 +529,13 @@
                             </ul>
                             <div class="price">$9.99</div>
                             {% if user.is_authenticated %}
-                            {{pers_paypal_payment.render}}
+                            <div style="border:solid 1px grey;border-radius:15px">
+
+                                {{pers_paypal_payment.render}}
+                            </div>
                             {% else %}
-                            <a href="{% url 'login' %}?next={{ request.path }}#pricing" id="personal_monthly" class="btn-outline-reg" style="cursor:pointer">Get Started</a>
+                            <a href="{% url 'login' %}?next={{ request.path }}#pricing" id="personal_monthly"
+                               class="btn-outline-reg" style="cursor:pointer">Get Started</a>
 
                             {% endif %}
                         </div>

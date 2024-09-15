@@ -340,7 +340,7 @@
              style="display:block;margin-top:20%;margin-left:0;width:90%;height:70%;margin-bottom:30px;overflow-y:scroll;overflow-x:hidden;">
             <div class="loader" id="loading-state" style="display:none"></div>
 
-            <div class="chat-box" style="display:none;height:100%;overflow-y:scroll;width:100%;margin:0;"
+            <div class="chat-box" style="display:none;height:100%;width:100%;margin:0;"
                  id="chat-box">
                 <div class="" id="follow-up"
                      style="border:dashed 2px grey;border-radius:10px;display:block;;padding:5px;margin:10px;width:80%">
@@ -760,10 +760,10 @@
 
         </div>
         <div class="chat-content item-mob" id="verify-company-contact"
-             style="display:none;margin-top:20%;width:100%;height:85%;margin-bottom:30px;overflow-y:scroll">
+             style="display:none;margin-top:20%;width:100%;height:85%;margin-bottom:30px;">
             <div class="loader" id="loading-state-verif" style="display:none"></div>
 
-            <div id="vcontact-instruction" style="display:block">
+            <div id="vcontact-instruction" style="display:block;overflow-y:scroll">
                 <div class="" id="ver-contact-placeholder"
                      style="width:90%;align-items:center;text-align:center">
                     <div class="section-fun-fact">
@@ -806,7 +806,7 @@
             </div>
             <div id="vcontact-results" style="display:none">
                 <div class=""
-                     style="width:100%;align-items:center;margin-top:10px;text-align:center;overflow-y:scroll;height:80%;margin-bottom:20px;background:red">
+                     style="width:90%;align-items:center;margin-top:10px;text-align:center;overflow-y:scroll;height:70%;margin-bottom:20px;">
                     <div class="section-fun-fact">
                         <h4>{{ title }} </h4>
                         <p>{{ findings }}</p>
@@ -846,8 +846,8 @@
                     </div>
 
                 </div>
-                <div style="width:90%;display:flex;justify-content:center;margin-top:10px;margin-bottom:20px;position:fixed">
-                    <div class="new-conversation-btn" id="new-verify"
+                <div style="width:90%;display:flex;justify-content:center;margin-top:10px;margin-bottom:20px;position:fixed;bottom:15">
+                    <div class="new-conversation-btn" id="new-verify" onclick="newVerify();"
                          style="width:200px;background-color:#3a3b3b;display:block">Verify Again
                     </div>
                 </div>
@@ -1453,7 +1453,13 @@ $(document).ready(function() {
             });
         }
 
+function newVerify(){
+    var vc_res=document.querySelector('#vcontact-results');
+    var vc_inst=document.querySelector('#vcontact-instruction');
+    vc_res.style.display='none';
+    vc_inst.style.display='block';
 
+    }
 </script>
 
 
