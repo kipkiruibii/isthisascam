@@ -84,6 +84,7 @@ def homePage(request):
             uss.is_verified = True
         if not uss.awarded_free_trial:
             uss.awarded_free_trial = True
+            uss.subscription_active = True
             uss.request_remaining += 5
             uss.subscription_expiry += timedelta(days=7)
 
