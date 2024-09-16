@@ -89,6 +89,12 @@ def homePage(request):
             uss.subscription_expiry += timedelta(days=7)
 
         uss.save()
+    if uss.request_remaining <= 0:
+        uss.subscription_active = False
+        uss.save()
+    elif not uss.subscription_active:
+        uss.subscription_active = True
+        uss.save()
 
     custom_token = auth.create_custom_token(firebase_user.uid)
     if request.method == 'POST':
