@@ -85,7 +85,8 @@ def homePage(request):
         if not uss.awarded_free_trial:
             uss.awarded_free_trial = True
             uss.request_remaining = 5
-            uss.subscription_expiry = timezone.now() + timedelta(days=7)
+            uss.subscription_expiry += timedelta(days=7)
+
         uss.save()
 
     custom_token = auth.create_custom_token(firebase_user.uid)
