@@ -1,8 +1,6 @@
 import json
 import traceback
 from datetime import timedelta
-
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -23,15 +21,22 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.conf import settings
 import uuid
 from django.urls import reverse
+# firebase.py
+import firebase_admin
+from firebase_admin import credentials, auth
 
 # from .utils import scan_file
 
 if settings.ISLOCAL:
     with open('../config.json') as file:
         config = json.load(file)
+    cred = credentials.Certificate('../firebase-services.json')
+    firebase_admin.initialize_app(cred)
 else:
     with open('/etc/config.json') as file:
         config = json.load(file)
+    cred = credentials.Certificate('/etc/firebase-services.json')
+    firebase_admin.initialize_app(cred)
 
 
 def extract_text_from_image(image_path):
@@ -62,9 +67,28 @@ def homePage(request):
     Protected through login(login required)
     '''
     rendered_html = 'home_page_mobile.html'
-
+    # check if user is verified
     if request.user_agent.is_pc:
         rendered_html = 'home_page.html'
+    #     check if user days has expired
+    uss = UserDetails.objects.filter(user=request.user).first()
+    expired = (uss.subscription_expiry - timezone.now()).total_seconds() <= 0
+    if expired:
+        uss.subscription_active = False
+        uss.request_remaining = 0
+        uss.save()
+
+    firebase_user = auth.get_user_by_email(request.user.email)
+    if firebase_user.email_verified:
+        if not uss.is_verified:
+            uss.is_verified = True
+        if not uss.awarded_free_trial:
+            uss.awarded_free_trial = True
+            uss.request_remaining = 5
+            uss.subscription_expiry = timezone.now() + timedelta(days=7)
+        uss.save()
+
+    custom_token = auth.create_custom_token(firebase_user.uid)
     if request.method == 'POST':
         feature = request.POST.get('feature', None)
         if feature == 'settings':
@@ -328,6 +352,8 @@ def homePage(request):
             pass
         if feature == 'scam-heatmap':
             pass
+        if feature == 'verify-account':
+            pass
         if feature == 'report-scam':
             title = request.POST.get('title', None)
             description = request.POST.get('description', None)
@@ -407,6 +433,7 @@ def homePage(request):
     context = {
         'theme': 'dark-mode' if dmode.dark_mode else "",
         'account_info': dmode,
+        'firebase_user': custom_token.decode('utf-8'),
         'ffact': FunFact.objects.order_by('?').first(),
         'freqs': RequestFeature.objects.all().order_by('-upvotes')
     }
@@ -589,6 +616,7 @@ def loginPage(request):
             user = authenticate(request, username=name.strip(), password=password.strip())
             if user is not None:
                 login(request, user)
+
                 return Response({'result': True, 'message': 'success', 'redirect': next_url},
                                 status.HTTP_200_OK)
             return Response({'result': False, 'message': 'Invalid credentials'},
@@ -611,7 +639,9 @@ def loginPage(request):
             ud.save()
             # print('registered')
             # login(request, user)
-            return Response({'result': True, 'message': 'login success', 'redirect': next_url},
+            return Response({'result': True,
+                             'message': 'Registration successfull. Account verification link sent to your email. Please verify',
+                             'redirect': next_url},
                             status.HTTP_200_OK)
 
     if request.user_agent.is_pc:

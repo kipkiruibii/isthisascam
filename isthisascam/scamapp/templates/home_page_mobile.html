@@ -230,6 +230,7 @@
 </head>
 
 <body class="{{theme}}   ">
+<p style="color:white" id="firebase-user" hidden>{{firebase_user}}</p>
 
 <div class="sidebar" id="sidebar-switch" style="display:none">
     <div class="tooltip">
@@ -279,12 +280,28 @@
         </button>
         <div style="padding:10px">
             <hr>
-            <div style="display:flex;justify-content:space-around;">
-                <div style="width:50px;">
+            <div style="display:flex;">
+                <div style="width:50px;margin-right:10px;align-items:center;display:flex;justify-content:center">
                     <i class="fa fa-user" aria-hidden="true" style="font-size:25px"></i>
                 </div>
-                <p style="color:white">{{request.user.email}}</p>
+                <p style="color:white;align-items:center;display:flex;justify-content:center;height:25px">
+                    {{request.user.email}}</p>
             </div>
+            {% if not account_info.is_verified %}
+            <div id="verif-prompt"
+                 style="width:100%;display:flex;justify-content:center;align-items:center">
+                <div>
+                    <p style="font-size:12px">This account is not verified yet. Verify now to claim 5 free trial
+                        credits</p>
+                    <div style="width:100%;display:flex;justify-content:center;align-items:center">
+
+                        <span style="cursor:pointer"><a class="btn-solid-sm" id="verify-email">VERIFY</a></span>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+            {% endif %}
             <div style="display:flex;">
                 <div style="width:80px;">
                     <p>Credits</p>
@@ -303,11 +320,15 @@
                 {% endif %}
 
             </div>
-            <span style="margin-left:20%;">
+            <div style="width:100%;display:flex;justify-content:center;align-items:center">
+                <div style="width:100%;display:flex;justify-content:center;align-items:center">
+
                     <a class="btn-solid-sm" href="{% url 'landing' %}#pricing">UPGRADE</a>
-                </span>
+                </div>
+
+            </div>
             <div>
-                <small>Please note that remaining requests do not roll over to the next month</small>
+                <p style="font-size:12px">Please note that remaining requests do not roll over to the next month</p>
 
             </div>
             <hr>
@@ -1437,29 +1458,110 @@ $(document).ready(function() {
     document.getElementById('content').textContent = originalContent.slice(0, maxChars) + "...";
 </script>
 <script>
-        function toggleMore(thiss){
-        var childElems=$(thiss).find('.desc');
+    function toggleMore(thiss){
+    var childElems=$(thiss).find('.desc');
 
-            childElems.each(function(){
-                let item=$(this);
+        childElems.each(function(){
+            let item=$(this);
 
-                if(item.css('display')==='block'){
-                    item.css('display','none');
+            if(item.css('display')==='block'){
+                item.css('display','none');
 
-                }else{
-                    item.css('display','block');
-                }
+            }else{
+                item.css('display','block');
+            }
 
-            });
-        }
+        });
+    }
 
 function newVerify(){
-    var vc_res=document.querySelector('#vcontact-results');
-    var vc_inst=document.querySelector('#vcontact-instruction');
-    vc_res.style.display='none';
-    vc_inst.style.display='block';
+var vc_res=document.querySelector('#vcontact-results');
+var vc_inst=document.querySelector('#vcontact-instruction');
+vc_res.style.display='none';
+vc_inst.style.display='block';
 
-    }
+}
+</script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendEmailVerification , signInWithCustomToken} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCGMkSgNJ0GMzodbN91TI3swCIIRU1vBoc",
+      authDomain: "is-this-a-scam.firebaseapp.com",
+      projectId: "is-this-a-scam",
+      storageBucket: "is-this-a-scam.appspot.com",
+      messagingSenderId: "890670762870",
+      appId: "1:890670762870:web:1fee0a93e33568345c4857",
+      measurementId: "G-5H1CF75HEL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    window.auth = getAuth(app);
+
+    function signInWithCustomTokenAct(customToken) {
+        signInWithCustomToken(auth, customToken)
+          .then((userCredential) => {
+            const user = userCredential.user;
+             if (user.emailVerified) {
+                toastr.success('Email already verified. Thank you!');
+                $('#verif-prompt').css('display','none');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+                                // Proceed with authenticated user actions
+            } else {
+                sendEmailVerification(user).then(() => {
+                    toastr.success("Verification email sent! Check your inbox or spam folder");
+                }).catch((error) => {
+                    toastr.error("Error sending email verification: Try again after sometime");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+
+                });
+            }
+          })
+          .catch((error) => {
+            console.error('Error signing in with custom token:', error);
+          });
+      }
+    $(document).ready(function() {
+            toastr.options = {
+            'closeButton': true,
+            'debug': false,
+            'newestOnTop': false,
+            'progressBar': false,
+            'positionClass': 'toast-top-right',
+            'preventDuplicates': false,
+            'showDuration': '1000',
+            'hideDuration': '1000',
+            'timeOut': '5000',
+            'extendedTimeOut': '1000',
+            'showEasing': 'swing',
+            'hideEasing': 'linear',
+            'showMethod': 'fadeIn',
+            'hideMethod': 'fadeOut',
+        };
+
+
+     $('#verify-email').click(function(){
+        const fb_usr=$('#firebase-user').text();
+            signInWithCustomTokenAct(fb_usr);
+         });
+
+    });
+
+
 </script>
 
 

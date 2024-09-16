@@ -208,6 +208,8 @@
 </head>
 
 <body class="{{theme}}">
+<p style="color:white" id="firebase-user" hidden>{{firebase_user}}</p>
+
 <div style="display:flex;justify-content:space-between;width:100%;height:100%">
     <div class="sidebar" style="height:100%;position: relative;z-index:2">
         <div class="sidebar-content"
@@ -250,15 +252,33 @@
             </button>
             <div style="padding:10px">
                 <hr>
-                <div style="display:flex;justify-content:space-around;">
-                    <div style="width:50px;">
+                <div style="display:flex;">
+                    <div style="width:50px;margin-right:10px;align-items:center;display:flex;justify-content:center">
                         <i class="fa fa-user" aria-hidden="true" style="font-size:25px"></i>
                     </div>
-                    <p style="color:white">{{request.user.email}}</p>
+                    <p style="color:white;align-items:center;display:flex;justify-content:center;height:25px">
+                        {{request.user.email}}</p>
                 </div>
+                {% if not account_info.is_verified %}
+                <div id="verif-prompt"
+                     style="width:100%;display:flex;justify-content:center;align-items:center">
+                    <div>
+                        <p style="font-size:12px">This account is not verified yet. Verify now to claim 5 free trial
+                            credits</p>
+                        <div style="width:100%;display:flex;justify-content:center;align-items:center">
+
+                            <span style="cursor:pointer"><a class="btn-solid-sm" id="verify-email">VERIFY</a></span>
+                        </div>
+                    </div>
+
+                </div>
+                <hr>
+                {% endif %}
+
+
                 <div style="display:flex;">
                     <div style="width:80px;">
-                        <p>Requests</p>
+                        <p>Credits</p>
                     </div>
                     <p style="color:white" id="request-count">{{account_info.request_remaining}}</p>
                 </div>
@@ -274,12 +294,16 @@
                     {% endif %}
 
                 </div>
-                <span style="margin-left:20%;">
-                    <a class="btn-solid-sm" href="{% url 'landing' %}#pricing">UPGRADE</a>
-                </span>
-                <div>
-                    <small>Please note that remaining requests do not roll over to the next month</small>
+                <div style="width:100%;display:flex;justify-content:center;align-items:center">
+                    <div style="width:100%;display:flex;justify-content:center;align-items:center">
 
+                        <a class="btn-solid-sm" href="{% url 'landing' %}#pricing">UPGRADE</a>
+                    </div>
+
+                </div>
+
+                <div>
+                    <p style="font-size:12px">Please note that remaining requests do not roll over to the next month</p>
                 </div>
                 <hr>
                 <div>
@@ -1180,260 +1204,342 @@
 </script>
 <script>
 
-var valideImages = [];
-var imageContainer = [];
+    var valideImages = [];
+    var imageContainer = [];
 
 
-$(document).ready(function() {
-    var homeUrl = window.DjangoURLs.home;
-    $('#submit-report-form').click(function(){
-    $('#error-mess-report').css('display','none');
-    $('#suc-mess-report').css('display','none');
-    var title=$('#report-title').val();
-    var desc=$('#report-details').val();
-    var loc=$('#report-location').val();
-    var type_l=$('#report-type').val();
-    var action=$('#report-action').val();
-    var action_r=$('#report-action-result').val();
-    if(title == '' || desc == ''){
-        $('#error-mess-report').text('Please fill all the fields');
-        $('#error-mess-report').css('display','block');
-        return;
-    }
-    $('#error-mess-report').css('display','none');
-
-    var data = new FormData();
-    for (var i = 0; i < valideImages.length; i++) {
-        var file = valideImages[i];
-        if (file instanceof File) {
-            data.append('files[]', file); // 'files[]' is the key for Django to process the files
-        } else {
-            console.error('File is not of type File:', file);
+    $(document).ready(function() {
+        var homeUrl = window.DjangoURLs.home;
+        $('#submit-report-form').click(function(){
+        $('#error-mess-report').css('display','none');
+        $('#suc-mess-report').css('display','none');
+        var title=$('#report-title').val();
+        var desc=$('#report-details').val();
+        var loc=$('#report-location').val();
+        var type_l=$('#report-type').val();
+        var action=$('#report-action').val();
+        var action_r=$('#report-action-result').val();
+        if(title == '' || desc == ''){
+            $('#error-mess-report').text('Please fill all the fields');
+            $('#error-mess-report').css('display','block');
+            return;
         }
-    }
-    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    data.append('feature', 'report-scam');
-    data.append('title',title);
-    data.append('description',desc);
-    data.append('location',loc);
-    data.append('action',action);
-    data.append('type',type_l);
-    data.append('action_result',action_r);
-    $.ajax({
-            url: homeUrl,  // Adjust URL to your Django view
-            type: 'POST',
-            headers: {
-                'X-CSRFToken': csrfToken
-            },
-            data: data,
-            processData: false,  // Prevent jQuery from automatically transforming the data into a query string
-            contentType: false,  // Prevent jQuery from setting the Content-Type header
-            success: function(response) {
+        $('#error-mess-report').css('display','none');
 
-                if (response['result'] != 'success'){
-                    $('#error-mess-report').text('Your report could not be submitted. Try again');
-                    $('#error-mess-report').css('display','block');
-
-                    return;
-                }
-                $('#suc-mess-report').text('Your report was submitted successfully! Thank you');
-                $('#suc-mess-report').css('display','block');
-                $('#image-delete-instruction').css('display','none');
-                $('#preview').empty();
-                $('#report-title').val('');
-                $('#report-details').val('');
-                $('#report-type').val('');
-                $('#report-location').val('');
-                $('#report-action').val('');
-                $('#report-action-result').val('');
-                valideImages = [];
-                imageContainer = [];
-
-
-            },
-            error: function(xhr, status, error) {
-                alert('File upload failed.');
-                console.error('Error:', error);
-                    $('#error-mess-request').text('Your message could not be sent. Try again');
-                    $('#error-mess-request').css('display','block');
-
-            }
-        });
-      });
-
-
-//upvote
-});
-function isFileInArray(file, fileArray) {
-    return fileArray.some(f => f.name === file.name && f.size === file.size && f.type === file.type);
-}
-
-function addFileToArray(file, fileArray) {
-    if (!isFileInArray(file, fileArray)) {
-        fileArray.push(file);
-        console.log('File added:', file.name);
-    } else {
-        console.log('File already in array:', file.name);
-    }
-}
-
-function FileVerification(event) {
-    var validatedFiles = [];
-
-    var errorStatement = "";
-
-    var files = event.target.files;
-
-    var minImageWidth = 400;
-    var minImageHeight = 400;
-
-    var nbMaxImages = 5;
-
-
-    //verification du nombre d<images:
-    if ((files.length > nbMaxImages) || (validatedFiles > 5 ||imageContainer>5 )) {
-        //files.splice(0,5)
-        alert("Maximum number of images is 5");
-
-    }
-
-
-    for (var i = 0; i < files.length; i++) {
-
-        //image Informations
-        var fileName = files[i].name;
-        var fileType = files[i].type;
-        var fileSize = files[i].size;
-        var ImageHeight;
-        var ImageWidth;
-
-        var reader = new FileReader();
-        var image = new Image();
-        image.src = reader.readAsDataURL(files[i]);
-        ImageWidth = image.width;
-        ImageHeight = image.height;
-
-
-        //Verification du format des images
-        if ((fileType != "image/png") &&
-            (fileType != "image/jpeg") &&
-            (fileType != "image/jpg")) {
-            errorStatement += "File format not supported";
-
-
-            //verification de la qualit
-        } else if ((ImageHeight < minImageHeight) && (ImageWidth > minImageWidth)) {
-
-            errorStatement += "Resolution too low";
-
-            //verifier le poids de toutes les images
-        } else {
-            addFileToArray(files[i], imageContainer);
-            validatedFiles.push(files[i]);
-
-        }
-
-    }
-
-    if (errorStatement != "") {
-
-        alert(errorStatement);
-
-    }
-
-    valideImages = imageContainer;
-//    valideImages = validatedFiles;
-    FileDisplayA(validatedFiles);
-}
-
-
-
-function FileDisplayA(files) {
-
-  var preview = document.querySelector('#preview');
-
-  function readAndPreview(file) {
-
-    // Make sure `file.name` matches our extensions criteria
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onloadend = function () {
-        $('#image-delete-instruction').css('display','block');
-        var image = new Image();
-        image.height = 200;
-        image.style.borderRadius = "10px";
-        image.style.margin = "10px";
-        image.title = file.name;
-        image.src = this.result;
-        var nImage = $(image).on('click', function(){
-            $(this).fadeOut(500, function() {
-                // Remove image element from DOM
-                $(this).remove();
-            // Remove file from the array
-            files = files.filter(f => f.name !== file.name);
-            var imageCount = $('#preview').children().length;
-            // Optional: Hide the delete instruction if there are no images
-            if (imageCount == 0) {
-                $('#image-delete-instruction').css('display', 'none');
-            }
-        });
-        });
-        preview.appendChild(image);
-            // Add file to the array if it’s not already there
-        if (!files.some(f => f.name === file.name)) {
-            files.push(file);
-        }
-
-      };
-    }
-
-  if (files) {
-    [].forEach.call(files, readAndPreview);
-  }
-}
-
-
-function create_zip(Images) {
-    var zip = new JSZip();
-    var zipChunk = new JSZip();
-    var Count = 0;
-
-    // Loop through all images and add them to zip chunks
-    for (var i = 0; i < Images.length; i++) {
-        var file = Images[i];
-
-        // Check if the file is a Blob (File)
-        if (file instanceof Blob) {
-            if ((i % 99) != 0) {
-                zipChunk.file(file.name, file);
+        var data = new FormData();
+        for (var i = 0; i < valideImages.length; i++) {
+            var file = valideImages[i];
+            if (file instanceof File) {
+                data.append('files[]', file); // 'files[]' is the key for Django to process the files
             } else {
-                zip.file("Chunk" + Count, zipChunk);
-                zipChunk = new JSZip();  // Reset zipChunk
-                Count++;
+                console.error('File is not of type File:', file);
             }
+        }
+        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        data.append('feature', 'report-scam');
+        data.append('title',title);
+        data.append('description',desc);
+        data.append('location',loc);
+        data.append('action',action);
+        data.append('type',type_l);
+        data.append('action_result',action_r);
+        $.ajax({
+                url: homeUrl,  // Adjust URL to your Django view
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                data: data,
+                processData: false,  // Prevent jQuery from automatically transforming the data into a query string
+                contentType: false,  // Prevent jQuery from setting the Content-Type header
+                success: function(response) {
+
+                    if (response['result'] != 'success'){
+                        $('#error-mess-report').text('Your report could not be submitted. Try again');
+                        $('#error-mess-report').css('display','block');
+
+                        return;
+                    }
+                    $('#suc-mess-report').text('Your report was submitted successfully! Thank you');
+                    $('#suc-mess-report').css('display','block');
+                    $('#image-delete-instruction').css('display','none');
+                    $('#preview').empty();
+                    $('#report-title').val('');
+                    $('#report-details').val('');
+                    $('#report-type').val('');
+                    $('#report-location').val('');
+                    $('#report-action').val('');
+                    $('#report-action-result').val('');
+                    valideImages = [];
+                    imageContainer = [];
+
+
+                },
+                error: function(xhr, status, error) {
+                    alert('File upload failed.');
+                    console.error('Error:', error);
+                        $('#error-mess-request').text('Your message could not be sent. Try again');
+                        $('#error-mess-request').css('display','block');
+
+                }
+            });
+          });
+
+
+    //upvote
+    });
+    function isFileInArray(file, fileArray) {
+        return fileArray.some(f => f.name === file.name && f.size === file.size && f.type === file.type);
+    }
+
+    function addFileToArray(file, fileArray) {
+        if (!isFileInArray(file, fileArray)) {
+            fileArray.push(file);
+            console.log('File added:', file.name);
         } else {
-            console.error('Invalid file type:', file);
+            console.log('File already in array:', file.name);
         }
     }
 
-    // Add any remaining files in zipChunk to the main zip file
-    if (zipChunk.files.length > 0) {
-        zip.file("Chunk" + Count, zipChunk);
+    function FileVerification(event) {
+        var validatedFiles = [];
+
+        var errorStatement = "";
+
+        var files = event.target.files;
+
+        var minImageWidth = 400;
+        var minImageHeight = 400;
+
+        var nbMaxImages = 5;
+
+
+        //verification du nombre d<images:
+        if ((files.length > nbMaxImages) || (validatedFiles > 5 ||imageContainer>5 )) {
+            //files.splice(0,5)
+            alert("Maximum number of images is 5");
+
+        }
+
+
+        for (var i = 0; i < files.length; i++) {
+
+            //image Informations
+            var fileName = files[i].name;
+            var fileType = files[i].type;
+            var fileSize = files[i].size;
+            var ImageHeight;
+            var ImageWidth;
+
+            var reader = new FileReader();
+            var image = new Image();
+            image.src = reader.readAsDataURL(files[i]);
+            ImageWidth = image.width;
+            ImageHeight = image.height;
+
+
+            //Verification du format des images
+            if ((fileType != "image/png") &&
+                (fileType != "image/jpeg") &&
+                (fileType != "image/jpg")) {
+                errorStatement += "File format not supported";
+
+
+                //verification de la qualit
+            } else if ((ImageHeight < minImageHeight) && (ImageWidth > minImageWidth)) {
+
+                errorStatement += "Resolution too low";
+
+                //verifier le poids de toutes les images
+            } else {
+                addFileToArray(files[i], imageContainer);
+                validatedFiles.push(files[i]);
+
+            }
+
+        }
+
+        if (errorStatement != "") {
+
+            alert(errorStatement);
+
+        }
+
+        valideImages = imageContainer;
+    //    valideImages = validatedFiles;
+        FileDisplayA(validatedFiles);
     }
 
-    // Generate the zip file as a Blob (asynchronously)
-    return zip.generateAsync({ type: "blob" });
-}
 
 
-function newVerify(){
-    var vc_res=document.querySelector('#vcontact-results');
-    var vc_inst=document.querySelector('#vcontact-instruction');
-    vc_res.style.display='none';
-    vc_inst.style.display='block';
+    function FileDisplayA(files) {
 
+      var preview = document.querySelector('#preview');
+
+      function readAndPreview(file) {
+
+        // Make sure `file.name` matches our extensions criteria
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+
+          reader.onloadend = function () {
+            $('#image-delete-instruction').css('display','block');
+            var image = new Image();
+            image.height = 200;
+            image.style.borderRadius = "10px";
+            image.style.margin = "10px";
+            image.title = file.name;
+            image.src = this.result;
+            var nImage = $(image).on('click', function(){
+                $(this).fadeOut(500, function() {
+                    // Remove image element from DOM
+                    $(this).remove();
+                // Remove file from the array
+                files = files.filter(f => f.name !== file.name);
+                var imageCount = $('#preview').children().length;
+                // Optional: Hide the delete instruction if there are no images
+                if (imageCount == 0) {
+                    $('#image-delete-instruction').css('display', 'none');
+                }
+            });
+            });
+            preview.appendChild(image);
+                // Add file to the array if it’s not already there
+            if (!files.some(f => f.name === file.name)) {
+                files.push(file);
+            }
+
+          };
+        }
+
+      if (files) {
+        [].forEach.call(files, readAndPreview);
+      }
     }
+
+
+    function create_zip(Images) {
+        var zip = new JSZip();
+        var zipChunk = new JSZip();
+        var Count = 0;
+
+        // Loop through all images and add them to zip chunks
+        for (var i = 0; i < Images.length; i++) {
+            var file = Images[i];
+
+            // Check if the file is a Blob (File)
+            if (file instanceof Blob) {
+                if ((i % 99) != 0) {
+                    zipChunk.file(file.name, file);
+                } else {
+                    zip.file("Chunk" + Count, zipChunk);
+                    zipChunk = new JSZip();  // Reset zipChunk
+                    Count++;
+                }
+            } else {
+                console.error('Invalid file type:', file);
+            }
+        }
+
+        // Add any remaining files in zipChunk to the main zip file
+        if (zipChunk.files.length > 0) {
+            zip.file("Chunk" + Count, zipChunk);
+        }
+
+        // Generate the zip file as a Blob (asynchronously)
+        return zip.generateAsync({ type: "blob" });
+    }
+
+
+    function newVerify(){
+        var vc_res=document.querySelector('#vcontact-results');
+        var vc_inst=document.querySelector('#vcontact-instruction');
+        vc_res.style.display='none';
+        vc_inst.style.display='block';
+
+        }
+</script>
+
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendEmailVerification , signInWithCustomToken} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCGMkSgNJ0GMzodbN91TI3swCIIRU1vBoc",
+      authDomain: "is-this-a-scam.firebaseapp.com",
+      projectId: "is-this-a-scam",
+      storageBucket: "is-this-a-scam.appspot.com",
+      messagingSenderId: "890670762870",
+      appId: "1:890670762870:web:1fee0a93e33568345c4857",
+      measurementId: "G-5H1CF75HEL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    window.auth = getAuth(app);
+
+    function signInWithCustomTokenAct(customToken) {
+        signInWithCustomToken(auth, customToken)
+          .then((userCredential) => {
+            const user = userCredential.user;
+             if (user.emailVerified) {
+                toastr.success('Email already verified. Thank you!');
+                $('#verif-prompt').css('display','none');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+                                // Proceed with authenticated user actions
+            } else {
+                sendEmailVerification(user).then(() => {
+                    toastr.success("Verification email sent! Check your inbox or spam folder");
+                }).catch((error) => {
+                    toastr.error("Error sending email verification: Try again after sometime");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+
+                });
+            }
+          })
+          .catch((error) => {
+            console.error('Error signing in with custom token:', error);
+          });
+      }
+    $(document).ready(function() {
+            toastr.options = {
+            'closeButton': true,
+            'debug': false,
+            'newestOnTop': false,
+            'progressBar': false,
+            'positionClass': 'toast-top-right',
+            'preventDuplicates': false,
+            'showDuration': '1000',
+            'hideDuration': '1000',
+            'timeOut': '5000',
+            'extendedTimeOut': '1000',
+            'showEasing': 'swing',
+            'hideEasing': 'linear',
+            'showMethod': 'fadeIn',
+            'hideMethod': 'fadeOut',
+        };
+
+
+     $('#verify-email').click(function(){
+        const fb_usr=$('#firebase-user').text();
+            signInWithCustomTokenAct(fb_usr);
+         });
+
+    });
+
+
 </script>
 </body>
 

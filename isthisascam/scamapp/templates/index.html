@@ -719,9 +719,6 @@
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script> <!-- Isotope for filter -->
 <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
 <script>
-
-</script>
-<script>
     function validateEmail(email) {
         var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
@@ -777,7 +774,6 @@
                 success: function(response) {
                     if(!response['result']){
                         toastr.error(response['message']);
-
                         return;
                     }
                     toastr.success(response['message']);
@@ -802,6 +798,7 @@
         landing: "{% url 'landing' %}",
     };
 </script>
+
 
 </body>
 </html>

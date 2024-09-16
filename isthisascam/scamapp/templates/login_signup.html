@@ -477,8 +477,32 @@
 <script src="{% static 'js/purecounter.min.js' %}"></script> <!-- Purecounter counter for statistics numbers -->
 <script src="{% static 'js/isotope.pkgd.min.js' %}"></script> <!-- Isotope for filter -->
 <script src="{% static 'js/scripts.js' %}"></script> <!-- Custom scripts -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut , sendEmailVerification} from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
-<script type="text/javascript">
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCGMkSgNJ0GMzodbN91TI3swCIIRU1vBoc",
+      authDomain: "is-this-a-scam.firebaseapp.com",
+      projectId: "is-this-a-scam",
+      storageBucket: "is-this-a-scam.appspot.com",
+      messagingSenderId: "890670762870",
+      appId: "1:890670762870:web:1fee0a93e33568345c4857",
+      measurementId: "G-5H1CF75HEL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    window.auth = getAuth(app);
+
     function getCSRFToken() {
     return document.querySelector('[name=csrfmiddlewaretoken]').value;
 }
@@ -580,8 +604,10 @@ $(document).ready(function() {
                 return;
             }
             toastr.success('Login successful');
+            setTimeout(() => {
+                window.location.href=response['redirect'];
+            }, 2000);
 
-            window.location.href=response['redirect'];
             },
             error: function(xhr, status, error) {
                 // Handle the error case
@@ -646,8 +672,11 @@ $(document).ready(function() {
 
                     return;
                 }
-                toastr.success('Registration successful');
-                window.location.href=response['redirect'];
+                toastr.success(response['message']);
+                // verify the email
+                // Sign up the user and send verification email
+                signUpUser(email,password);
+
 
 
             },
@@ -658,6 +687,37 @@ $(document).ready(function() {
         });
     });
 });
+
+function signUpUser(email, password) {
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Signed up successfully
+            const user = userCredential.user;
+            // Send email verification
+             if (user.emailVerified) {
+                console.log('Email is verified.');
+                window.location.reload();
+
+            } else {
+                sendEmailVerification(user).then(() => {
+                    console.log("Verification email sent!");
+                    window.location.reload();
+
+                }).catch((error) => {
+                    console.error("Error sending email verification: ", error);
+                    window.location.reload();
+
+                });
+            }
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.error("Error signing up:", errorCode, errorMessage);
+            window.location.reload();
+
+        });
+}
 
 </script>
 

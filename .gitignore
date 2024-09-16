@@ -3,3 +3,4 @@ config.json
 .env
 isthisascam/db.sqlite3
 isthisascam/images
+firebase-services.json

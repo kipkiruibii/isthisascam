@@ -11,6 +11,8 @@ class UserDetails(models.Model):
     subscription_expiry = models.DateTimeField(default=timezone.now)
     request_remaining = models.IntegerField(default=0)
     dark_mode = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
+    awarded_free_trial = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username}, sub: {self.subscription_type} , Active: {self.subscription_active}'
